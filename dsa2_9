@@ -1,0 +1,45 @@
+9. Let us denote SumOfMatrix as a sum of all the elements of the matrix. Given a square matrix A of size n x n, find the maximum of 
+SumOfMatrix of all the square sub-matrices of A with size m x m where m <= n <= 100. The elements of A lie in the range -1000 to 1000. 
+n and the elements of the matrix are given as user input. 
+****************************************************************************************************************************
+
+NOTE : NEED NOT USE ARRAY TO STORE AND THEN FIND MAX VALUE .. CAN FIND MAX THEN AND THERE ;
+
+#include <stdio.h>
+#define N n*(n+1)*(2*n+1)/6
+int n;
+int main() {
+    
+    printf("Enter the value of n : ");
+    scanf("%d",&n);
+    int mat[n][n];
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            scanf("%d",&mat[i][j]);
+    
+    int i, j, ioff, joff, off_cnt,k=0,sum=0,sub_mtrx_size;
+    int sum_array[N]={};
+    for(sub_mtrx_size = n; sub_mtrx_size >=1 ; sub_mtrx_size--) 
+    {
+        off_cnt = n - sub_mtrx_size + 1;
+        for (ioff = 0; ioff < off_cnt; ioff++) {
+            for (joff = 0; joff < off_cnt; joff++) {
+                for (i = 0; i < sub_mtrx_size; i++) {
+                    for (j = 0; j < sub_mtrx_size; j++) {
+                        sum+=mat[i+ioff][j+joff];
+                    }
+                }
+                sum_array[k]=sum;
+                k++;
+                sum=0;
+            }
+        }
+    }
+    int MAX=sum_array[0];
+    for(int k=1;k<N;k++){
+        if(sum_array[k]>=MAX)
+            MAX=sum_array[k];
+    }
+    printf("Min. Sum of all sub-matrices is : %d",MAX);
+    return 0;
+}
