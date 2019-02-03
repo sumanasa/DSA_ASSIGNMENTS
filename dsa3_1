@@ -1,0 +1,91 @@
+1. You are given two strings t and p. The string t contains all the letters of string p in the same order (it
+doesn’t have to be contiguous). For example, t could be ‘abdefcb’ and p could be ‘abb’ but p could not be
+‘bab’ (order is not preserved) or ‘bxy’ (‘xy’ is not in t). You are also given a set of operations on an array a.
+Each element a[i] denotes the index of the letter to be removed from string t (a[i]>=1). For example, if the
+array is ‘3 5 4 7 2 1 6’ applied on the string t which is ‘abdefcb’, then first remove the 3rd element ‘d’, so t
+becomes ‘abdefcb’ (character ‘d’ has been striked through). Then we remove the 5th element ‘f’, so t
+becomes ‘abdefcb’(character ‘f’ has been striked through) and so on. Note that after removing one letter,
+the indices of other letters don't change. So, if a letter was at 5th position and you remove the 3
+rd letter, then
+still the letter at the 5
+th position stays at 5th position.
+Your task is to determine the maximum number of letters that can be removed from string t following the
+operations in the array so that string p is obtainable.
+Also note that array a has the same size as the string t. So, by the end, after all operations in array a have
+been executed you should not be left with any unprocessed element in string t, as the elements in array a
+are all unique. Constraints: |t|≤1000, |p|≤1000.
+Input:
+First line contains string t and second line contains string p.
+Third line contains an integer n which denotes the number of elements in array a. The size of a is equal to
+the size of string t.
+Fourth line contains array a.
+Output:
+Print a single integer number, the maximum number of letters that you can remove following the order in
+array a.
+Example :
+abdefcb
+abb
+7
+3 5 4 7 2 1 6
+Output :
+3
+Explanation:
+Following the order of removals in array a, you first remove ‘d’, then ‘f’, then ‘e’. Now if you remove 
+***********************************************************************************************************************
+
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+int size,plen,tlen,k=0,ans=0,NF;
+int order[100],visited[100],op[100];
+char t[100],p[100];
+
+void updateArray(int i){
+    int flag=0;
+    for(int j=0;j<tlen;j++){
+        if(p[i]==t[j] && visited[j]==0){
+            order[k++]=j;
+            visited[j]=1;
+            flag=1;
+            break;
+        }
+    }
+    if(flag==0){
+        NF = 1;
+        return;
+    }
+}
+bool check_order(){
+    for(int i=0;i<k;i++){
+        for(int j=i+1;j<k;j++){
+            if(order[i]>order[j])
+                return false;
+        }   
+    }
+    return true;
+}
+int main(){
+    printf("enter the first string : ");    scanf("%s",t);      tlen = strlen(t);
+    printf("enter the second string : ");    scanf("%s",p);     plen = strlen(p);
+    printf("enter the size of array : ");    scanf("%d",&size);
+    printf("enter the elements of array :\n");
+    for(int i=0;i<size;i++)
+        scanf("%d",&op[i]);
+    for(int i=0;i<size;i++){
+        k=0;
+        t[op[i]-1] = 32;
+        memset(visited,0,sizeof(visited));
+        memset(order,0,sizeof(order));
+        for(int i=0;i<plen;i++){
+            updateArray(i);
+            if(NF==1){
+                return 0;
+            }
+        }
+        if(check_order()){
+            ans++;
+        }
+    }
+    printf("%d\n",ans);
+    return 0;
+}
