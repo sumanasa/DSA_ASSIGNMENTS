@@ -1,0 +1,71 @@
+3. Given a singly linked list, write a program to shuffle it according to the following rule: segregate all the
+elements in such a way that elements at positions k*i (where i starts from 1 and k<=1000, k may not be less
+than the number of elements present in the linked list, k may not be a multiple of the number of elements
+present in the linked list) appear before the rest of the elements and the remaining elements are appended
+in reverse order.
+Input:
+The first line contains the value of k.
+The second line contains the elements of the linked list (The total number of elements present in the linked
+list can’t be taken as an input).
+Output:
+An updated linked list based on the segregation rule described in the problem.
+Example:
+3
+1 2 3 4 5 6 7 8 9
+Output:
+3 6 9 8 7 5 4 2 1
+*************************************************************************************************************
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+int count[26];
+
+void counter(char string[],int len){
+    memset(count,0,sizeof(count));
+    for(int k=97;k<123;k++){
+        for(int i=0;i<len;i++){
+            if(string[i]==k)
+                count[k-97]++;
+        }
+    }
+}
+
+bool isodd(int n){
+    if(n%2==0)
+        return false;
+    return true;
+}
+
+int noofodds(){
+    int noo=0;
+    for(int i=0;i<26;i++){
+        if(isodd(count[i]))
+            noo++;
+    }
+    return noo;
+}
+
+int main(){
+    char str[10];
+    int length ;
+    int no_of_odds;
+    
+    printf("Enter the string : ");
+    scanf("%s",str);
+    length = strlen(str);
+    
+    //update count of each alphabet
+    counter(str,length);
+    
+    // validations 
+    no_of_odds = noofodds();
+    if( (isodd(length) && no_of_odds > 1) || (!isodd(length) && no_of_odds > 0 )){
+        printf("NO");
+        return 0;
+    }
+    printf("YES");
+    return 0;
+}
+
