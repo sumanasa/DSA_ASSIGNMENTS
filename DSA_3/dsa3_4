@@ -1,0 +1,24 @@
+4. You are living in a country that has n cities (numbered from 1 to n) connected to each other using n-1
+bidirectional roads. No city is completely isolated from all the other cities. Each road connects two cities.
+(Represent this scenario as an undirected, acyclic, connected graph). You love walking and you plan to walk
+between two cities (u, v), taking the shortest path from u to v.
+There are 2 special cities that you dislike visiting namely (x, y). You will avoid all possible paths, in which you
+first encounter x and then y. The other permutation (first y then x) is allowed. Individual cities x and y
+appearing separately in the route are fine too. Find out the total number of possible (u, v) pairs such that
+you do not encounter first the city x then the city y in your route while you are travelling from city u to city
+v.
+Input:
+First line contains n, x, y.
+Each of the next n-1 lines contains two integers, denoting that these two cities are connected.
+Output:
+A single integer denoting the total number pairs of cities that follow the restriction.
+Example:
+3 1 3
+1 2
+2 3
+Answer:
+5
+Explanation: Path 1 (1 to 2), Path 2 (2 to 1), Path 3 (2 to 3), Path 4 (3 to 2) and Path 5 (3 to 2 to 1). The Path
+(1 to 2 to 3) is not considered because of the restriction.
+**********************************************************************************************************************
+
