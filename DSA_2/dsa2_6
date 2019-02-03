@@ -7,6 +7,14 @@ the edges incident on it. If yes, then identify that vertex and all the resultin
 such vertex or can only be done using more than one vertex), then simply display the message “No such vertex exists”. Write a C program 
 for the above scenario. The graph is given as user input as an adjacency matrix. The number of vertices and edges may also be taken as 
 user inputs. The graph can have a maximum of 1000 nodes. 
+
+EDIT : Q6. After constructing G', suppose you there are 2 or more vertices using any one of which G'
+can split into 2 or more connected components. Say, there are 2 such vertices x and y and if you
+remove either x or y and the corresponding incident edges, then the resulting graph consists of
+2 or more connected components. In such a case, it is sufficient to identify either x or y. There is
+no need to identify both.
+Your output should print the vertex which needs to be deleted and also the resulting connected
+components in the form of adjacency matrices.
 **********************************************************************************************************************************
 
 method 1 :
