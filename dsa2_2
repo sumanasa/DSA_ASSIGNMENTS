@@ -1,0 +1,62 @@
+2. The diameter of a graph is defined as maxu, v d(u, v) between any two vertices (u, v), where d(u,v) is the shortest path between 
+u and v. To find the diameter of a graph, you have to first find the shortest path between each pair of vertices. The greatest length 
+of any of these paths is the diameter of the graph. Given an undirected, unweighted graph, write a C program to find the diameter of the 
+graph. The graph is given as user input in the form of an adjacency matrix. The number of nodes and edges can be taken as user inputs. 
+The graph can contain cycles, self-loops and a maximum of 1000 nodes. In addition to printing the diameter, your program should also 
+print all shortest paths (in case there are more than one) between every pair of vertices. Note that for an unweighted graph, the length 
+of the shortest path between a pair of vertices is the total number of edges lying in that path.
+********************************************************************************************************************
+
+#include<stdio.h>
+#include<limits.h>
+#define MAX 10
+#define inf 9999
+   
+int V,i,j,k;
+int dist[MAX][MAX];
+int G[MAX][MAX];
+int max=0;
+int path[10][2];
+int k=0;
+
+void Diameter(int dist[][MAX]) 
+{            
+	for(i=0;i<V;i++)
+		for(j=0;j<V;j++)
+				if(dist[i][j]>max)
+					max=dist[i][j];
+} 
+
+  
+void floydWarshall (int G[][MAX]) 
+{ 
+    for (i = 0; i < V; i++) 
+        for (j = 0; j < V; j++) 
+        	if(G[i][j]==0)
+        		dist[i][j]=inf;
+        	else	
+            	dist[i][j] = G[i][j]; 
+  
+    for (k = 0; k < V; k++)  
+    	for (i = 0; i < V; i++) 
+        	for (j = 0; j < V; j++)
+                if((dist[i][k] + dist[k][j]) < dist[i][j])
+                	dist[i][j] = dist[i][k] + dist[k][j];
+   
+    Diameter(dist); 
+} 
+  
+   
+int main() 
+{ 
+	printf("enter no of vertices : ");
+	scanf("%d",&V);
+	
+	printf("enter the adjacency matrix : ");
+	for(i=0;i<V;i++)
+		for(j=0;j<V;j++)
+			scanf("%d",&G[i][j]);
+	  
+    floydWarshall(G); 
+    printf("the diameter is %d\n",max);
+}
