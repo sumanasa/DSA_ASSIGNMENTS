@@ -1,0 +1,325 @@
+6. Suppose you are given an unweighted, undirected graph G, where V denotes the set of vertices and E denotes the set of edges. You have to
+construct an unweighted, undirected graph G from G in the following manner. For every edge in G, there is a vertex in G. 
+A pair of vertices u, v  G are connected by an edge if the edges corresponding to u, v were incident (connected to) on the same vertex 
+in G. The method of construction is illustrated in the diagram below. 
+    After constructing G, you have to determine if it can be split into at least two connected components by removing one single vertex and 
+the edges incident on it. If yes, then identify that vertex and all the resulting connected components. If no (in case there exists no 
+such vertex or can only be done using more than one vertex), then simply display the message “No such vertex exists”. Write a C program 
+for the above scenario. The graph is given as user input as an adjacency matrix. The number of vertices and edges may also be taken as 
+user inputs. The graph can have a maximum of 1000 nodes. 
+**********************************************************************************************************************************
+
+method 1 :
+
+#include<stdio.h>
+#include<stdbool.h>
+#include<stdlib.h>
+int a[1000][1000],b[1000][1000],n,e,cycle[1000][1000],l[1000],noc=0;
+int visited[1000];
+struct edge {
+	int src;
+	int dst;
+};
+struct edge* newEdge(int s, int d)
+{
+	struct edge* edge = (struct edge*)malloc(sizeof(struct edge));
+	edge->src=s;
+	edge->dst=d;
+	return edge;
+}
+void connectedComponents(int src, int v)
+{
+	for(int j=0;j<e;j++)
+	{
+		if(b[src][j]==1 && visited[j]==0 && j!=v)
+		{
+			visited[j]=1;
+			cycle[noc][l[noc]++]=j;
+			connectedComponents(j, v);
+		}
+	}
+}
+int main()
+{
+	int noe=0;
+	scanf("%d%d", &n, &e);
+	struct edge* edges[e];
+	int flag=0;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			scanf("%d", &a[i][j]);
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<i;j++)
+		{
+			if(a[i][j]) edges[noe++]=newEdge(i, j);
+		}
+	}
+	for(int i=0;i<e;i++)
+	{
+		for(int j=0;j<e && j!=i;j++)
+		{
+			if(edges[i]->src==edges[j]->src || edges[i]->src==edges[j]->dst || edges[i]->dst==edges[j]->src || edges[i]->dst==edges[j]->dst)
+			{
+				b[i][j]=1;
+				b[j][i]=1;
+			}
+		}
+	}
+	for(int v=0;v<e;v++)
+	{
+		for(int i=0;i<e;i++) {visited[i]=0; l[i]=0;}
+		for(int i=0;i<e;i++)
+		{
+			if(i==v) continue;
+			if(visited[i]==0)
+			{
+				visited[i]=1;
+				cycle[noc][l[noc]++]=i;
+				connectedComponents(i, v);
+				noc++;
+			}
+		}
+		if(noc>1)
+		{
+			printf("Connected components are : \n");
+			for(int i=0;i<noc;i++) 
+			{
+				for(int j=0;j<l[i];j++) 
+				{
+					for(int k=0;k<l[i];k++)
+					{
+						printf("%d ", b[cycle[i][j]][cycle[i][k]]);
+					}
+					printf("\n");
+				} 
+				printf("\n");
+			}
+			flag=1;
+			break;
+		}
+		else
+		{
+			l[0]=0;
+			noc=0;
+		}
+	}
+	if(!flag) printf("No such vertex exists");
+	return 0;
+}
+
+/***********************************************************************************/
+
+method 2 : 
+    part 1 :
+    
+    int main()
+{
+    scanf("%d",&v);
+    for(int i=0;i<v;i++)
+        for(int j=0;j<v;j++)
+            scanf("%d",&adj[i][j]);
+    for(int i=0;i<v;i++)
+        for(int j=0;j<=i;j++)
+            if(adj[i][j]==1)
+            {
+                modadj[i][j]=modadj[j][i]=count;
+                count++;
+            }
+    printf("\n");
+    for(int i=0;i<v;i++)
+    {
+        for(int j=0;j<v;j++)
+            printf("%d ",modadj[i][j]);
+        printf("\n");
+    }
+    for(int i=0;i<v;i++)
+    {
+        c=0;
+        for(int j=0;j<v;j++)
+        {
+            if(modadj[i][j])
+            {
+                arr[c++]=modadj[i][j];
+            }
+        }
+
+        for(int j=0;j<c-1;j++)
+        {
+            for(int k=j+1;k<c;k++)
+            {
+                newadj[arr[j]-1][arr[k]-1]=newadj[arr[k]-1][arr[j]-1]=1;
+            }
+        }
+    }
+    printf("\n");
+    for(int i=0;i<count-1;i++)
+    {
+        for(int j=0;j<count-1;j++)
+            printf("%d ",newadj[i][j]);
+        printf("\n");
+    }
+return 0;
+}
+
+  pert 2 :
+  
+  #include <stdio.h>
+int newadj[1000][1000],count,comp,vis[1000],flag=0,tempadj[1000][1000];
+void dfs(int x)
+{
+    vis[x]=1;
+    //printf("%d ",x);
+    for(int i=0;i<count-1;i++)
+        if(newadj[x][i] && !vis[i])
+            dfs(i);
+}
+void dfsprint(int x)
+{
+    vis[x]=1;
+    printf("%d ",x);
+    for(int i=0;i<count-1;i++)
+        if(newadj[x][i] && !vis[i])
+            dfsprint(i);
+}
+void visInitialize()
+{
+    for(int i=0;i<1000;i++)
+        vis[i]=0;
+}
+int main()
+{
+    scanf("%d",&count);
+    for(int i=0;i<count-1;i++)
+        for(int j=0;j<count-1;j++)
+        {
+            scanf("%d",&newadj[i][j]);
+            tempadj[i][j]=newadj[i][j];
+        }
+
+    for(int i=0;i<count-1;i++)
+    {
+        for(int j=0;j<count-1;j++)
+        {
+            newadj[i][j]=newadj[j][i]=0;
+        }
+        comp=0;
+        visInitialize();
+        for(int j=0;j<count-1;j++)
+        {
+            if(!vis[j] && j!=i)
+            {
+                comp++;
+                dfs(j);
+             }
+        }
+        if(comp>1)
+        {
+            flag=1;
+            printf("%d \n",i);
+            visInitialize();
+            for(int j=0;j<count-1;j++)
+            {
+                if(!vis[j] && j!=i)
+                {
+                   // comp++;
+                    dfsprint(j);
+                    printf("\n");
+                 }
+            }
+            break;
+        }
+        for(int j=0;j<count-1;j++)
+        {
+            newadj[i][j]=newadj[j][i]=tempadj[i][j];
+        }
+    }
+    if(flag==0)
+        printf("No such vertex");
+    return 0;
+}
+
+
+/************************************************************************************************/
+
+method 3 :
+
+  part 1 :
+  (same as method 1)
+  #include<stdio.h>
+#include<stdbool.h>
+#include<stdlib.h>
+int a[1000][1000],b[1000][1000],n,e,cycle[1000][1000],l[1000],noc=0;
+int visited[1000];
+struct edge {
+	int src;
+	int dst;
+};
+struct edge* newEdge(int s, int d)
+{
+	struct edge* edge = (struct edge*)malloc(sizeof(struct edge));
+	edge->src=s;
+	edge->dst=d;
+	return edge;
+}
+void connectedComponents(int src, int v)
+{
+	for(int j=0;j<e;j++)
+	{
+		if(b[src][j]==1 && visited[j]==0 && j!=v)
+		{
+			visited[j]=1;
+			cycle[noc][l[noc]++]=j;
+			connectedComponents(j, v);
+		}
+	}
+}
+int main()
+{
+	int noe=0;
+	scanf("%d%d", &n, &e);
+	struct edge* edges[e];
+	int flag=0;
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			scanf("%d", &a[i][j]);
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<i;j++)
+		{
+			if(a[i][j]) edges[noe++]=newEdge(i, j);
+		}
+	}
+	for(int i=0;i<e;i++)
+	{
+		for(int j=0;j<e && j!=i;j++)
+		{
+			if(edges[i]->src==edges[j]->src || edges[i]->src==edges[j]->dst || edges[i]->dst==edges[j]->src || edges[i]->dst==edges[j]->dst)
+			{
+				b[i][j]=1;
+				b[j][i]=1;
+			}
+		}
+	}
+}
+
+part 2 : like finding no of components by removing each node 
+  (refer to dsa2_5)
+  
+
+
+
+
+
+
+
+
+
