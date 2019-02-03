@@ -1,0 +1,60 @@
+7. Steph fortunately gets out of the horror house using his string. The gate keeper did not like this. He is a
+big fan of Caesar. He asks you to return the Caesar Cipher of the given password. Caesar Cipher increases
+the ASCII value of the given letter by 3 and returns the letter corresponding to the new ASCII value. If the
+ASCII value exceeds the value of z, then start again from the beginning of the lower-case letters.
+Constraint:
+Length of the string < 100
+Input Format:
+Given a string s
+Sample Input 1:
+abcdefghijklmnopqrstuvwxyz
+Sample Output 1:
+defghijklmnopqrstuvwxyzabc
+Sample Input 2:
+abaaa
+Sample Output 2:
+deddd
+Sample Input 3:
+a
+Sample Output 3:
+d
+Sample Input 4:
+aaba
+Sample Output 4:
+dded
+**************************************************************************************************************************
+
+method 1 :
+
+#include <stdio.h>
+#include <stdlib.h>
+int main(){
+    char str[100];
+    int length ;
+    
+    printf("Enter the string : ");
+    scanf("%s",str);
+    length = strlen(str);
+    
+    for(int i=0;i<length;i++)
+    {
+        if(str[i]>119) // coz by adding 3 it exceeds 'z'
+            str[i] = ((str[i]+3)%123)+97; // a=97 and z=122
+        else
+            str[i]+=3;
+    }
+    printf("%s",str);
+    return 0;
+}
+
+method2 :
+
+#include<stdio.h>
+#include<string.h>
+int main(){
+    char* string = (char*)malloc(100*sizeof(char));
+    scanf("%[^\n]s",string);
+    for(int i = 0; i<strlen(string); i++)
+        *(string+i) = 'a' + (*(string+i) + 3 - 'a')%26;
+    printf("%s",string);
+}
