@@ -1,0 +1,61 @@
+1. Given a weighted, directed graph, write a C program to find the cycle having minimum weight. Assume that the graph is given 
+as user input in the form of an adjacency matrix, contains no self-loops and edge weights are positive whole numbers greater than zero.
+The number of nodes and edges can be taken as user inputs. The graph can contain a maximum of 1000 nodes. Your program should be able to
+identify all of possible minimum weight cycles in the graph. In case, the graph contains no cycle, your program should print the message
+“No cycles present”.
+*************************************************************************************************************************
+
+#include <stdio.h>
+
+#define N 1005
+#define INF 1000000000
+
+int g[N][N], cost[N][N], vis[N], stack[N], used[N], min = INF, cur, n;
+
+void dfs(int u, int k)
+{
+    if(u == cur && k)
+    {
+        for(int i = 0; i < k; ++i)
+            printf("%d ", stack[i]);
+        printf("%d\n", cur);
+        return;
+    }
+    if(vis[u])
+        return;
+    stack[k] = u;
+    vis[u] = 1;
+    used[u] = 1;
+    for(int v = 0; v < n; ++v)
+        if(g[u][v] && (cost[cur][v] + cost[v][cur] == min || cur == v))
+            dfs(v, k+1);
+    vis[u] = 0;
+}
+
+int main()
+{
+    int m, u, v, w, i, j, k;
+    scanf("%d %d", &n, &m);
+    for(i = 0; i < n; ++i)
+        for(j = 0; j < n; ++j)
+            cost[i][j] = INF;
+    while(m--)
+    {
+        scanf("%d %d %d", &u, &v, &w);
+        cost[u][v] = g[u][v] = w;
+    }
+    for(k = 0; k < n; ++k)
+        for(i = 0; i < n; ++i)
+            for(j = 0; j < n; ++j)
+                if(cost[i][j] > cost[i][k] + cost[k][j])
+                    cost[i][j] = cost[i][k] + cost[k][j];
+    for(i = 0; i < n; ++i)
+        if(min > cost[i][i])
+            min = cost[i][i];
+    if(min == INF)
+        return printf("-1\n"), 0;
+    for(cur = 0; cur < n; ++cur)
+        if(cost[cur][cur] == min && !used[cur])
+            dfs(cur, 0);
+    return 0;
+}
