@@ -1,0 +1,96 @@
+9. Given a directed graph with N vertices and M edges with no self-loops. Find all the vertices from where all
+the other vertices can be reached. If no such vertex exists, print the message “no” or else print “yes” and the
+vertex numbers.
+Constraint:
+1 <= N <= 1000
+1 <= M <=1000
+Input:
+The first line contains two integers in the order N, M
+Given M lines with two vertex numbers x, y, representing an edge from vertex x to vertex y
+Sample Input:
+5 7
+1 2
+1 4
+1 3
+4 2
+4 3
+3 5
+5 1
+Sample Output:
+Yes, 1,3,4,5
+*********************************************************************************************************************
+
+#include <stdio.h>
+#include <stdlib.h>
+int G[1000][1000],visited[1000],answer[1000];
+int n,e,s,d,reachable_cnt=0;
+
+
+void dfs(int src,int dest){
+    visited[src]=1;
+    if(src==dest){
+        reachable_cnt++;
+        printf(" ^ is reachable\n");
+        return;
+    }
+    for(int i=1;i<=n;i++){
+        if(G[src][i]==1 && visited[i]==0)
+            dfs(i,dest);
+    }
+}
+
+int main(){
+    int count=0;
+    printf("enter the no of nodes and edges : ");
+    scanf("%d %d",&n,&e);
+    printf("mention source and destination points of each edge \n");
+    while(e--){
+        scanf("%d %d",&s,&d);
+        G[s][d]=1;
+    }
+    
+    //print ADJ matrix and make diagonal elements 1
+    
+    printf("ADJACENCY MATRIX : \n");
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            if(i==j)
+                G[i][j]=1;
+            printf("%d ",G[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+    for(int i=1;i<=n;i++)
+    {
+        reachable_cnt = 0;
+       
+        printf("count till now is %d\n\n",count);
+        
+        for(int j=1;j<=n;j++)
+        {
+            printf("the source and destination are : %d %d\n",i,j);
+            memset(visited,0,sizeof(visited));
+            if(G[i][j]!=1)
+                dfs(i,j);
+            else{
+                printf(" ^ is reachable\n");
+                reachable_cnt++;
+            }
+        }
+        if(reachable_cnt == n){
+            answer[count++] = i;
+        }
+        printf("reachable_count till now is %d\n",reachable_cnt);
+    }
+    if(count!=0){
+        printf("FINAL COUNT is %d\n\n",count);
+        printf("\n YES\n");
+        for(int i=0;i<count;i++){
+            printf("%d ,",answer[i]);
+        }
+    }
+    else
+        printf("\n NO");
+    return 0;
+}
