@@ -1,0 +1,190 @@
+4. Suppose you are given a doubly linked list. Each node has an id, a next pointer and a previous pointer. The previous pointer of a node X
+can either point to the immediately preceding node (case 1) or a node lying beyond the immediately preceding node (case 2). The list can 
+contain one or more loops, i.e., the previous pointer of one or more nodes (except for the first node) can point to a node lying beyond the
+immediately preceding node. The loop never involves previous pointers satisfying case 1. However, the next pointer of every node points to 
+the immediately next neighbouring node except for the last node whose next pointer is NULL. The previous pointer of the first node is 
+always NULL. There is a head pointer pointing to the first node of the list. There is no tail pointer. The diagram below shows an example 
+of such a list. The number inside each node indicates the node id.  
+  Given such a list as user input, write a C program to determine whether the list contains any loops or not. If yes, print all such loops. 
+Irrespective of whether the list contains loops or not, finally, assign colours to each of the nodes in such a manner that no two adjacent 
+nodes are assigned the same colour and the colouring is done using minimum number of colours. While determining if two nodes are adjacent 
+or not, you will have to consider both next and previous pointers (satisfying both case 1 and case 2).  For the linked list shown above, 
+the output will be: A loop exists 2  3  4  2 (Here, 2  3  2, 2  3  4  5  4  2 etc. are not considered as loops).  
+The list can be coloured using 3 colours. A sample colouring is shown below.  
+  The number of colours as well as the colours assigned to the individual nodes should be printed. The linked list is given as user input. 
+However, the total number of nodes cannot be taken as user input. The input will be given in the following tuple format (X, Y, Z): 
+ X - id of the new node  Y - id of the node where the previous pointer of X will point  Z - id of the node where the next pointer of X
+will point For the 1st node, the input will be (1, 0, 2) where 0 indicates the previous pointer of the 1st node is made NULL. 
+Similar logic applies for the last node. You can assume any colours for colouring the nodes. For a given linked list, several colourings 
+can be possible using minimum number of colours. For eg., for the linked list shown above, the colour sequence could have been blue,
+yellow, blue, green, blue. It is sufficient to print only one such colouring sequence.
+****************************************************************************************************************************************
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+
+int id[20],p[20],nex[20];
+int i,j,n,c;
+int G[20][20];
+
+
+typedef struct binNode
+{
+	int data;
+	struct binNode* next;
+	struct binNode* prev;
+}node;
+
+node* tmp[20];
+node* head = NULL;
+
+void display(node* head)
+{
+	node* tmp = head;
+	while(tmp!=NULL)
+	{
+		printf("%d->",tmp->data);
+		tmp=tmp->next;
+	}
+	printf("\n");
+}
+
+void append(node** head_ref,int i)
+{
+	node* new_node = (node*)malloc(sizeof(node));
+	new_node->data = i;
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	
+	node* last = *head_ref;
+	
+	if(*head_ref==NULL)
+	{
+		*head_ref = new_node;
+		tmp[i] = *head_ref;
+		return;
+	}
+	
+	while(last->next!=NULL)
+	{
+		last = last->next;
+	}
+	
+	last->next = new_node;
+	tmp[i] = last->next;
+}
+
+
+void bjoin(node** head_ref,int i)
+{
+	if(p[i]==0)
+		tmp[i]->prev = NULL;
+	else
+		tmp[i]->prev = tmp[p[i]];
+}
+
+void loopDetect(node* head)
+{
+	
+	for(i=1;i<=n;i++)
+	{
+		if(tmp[i]->prev!=tmp[i-1])
+		{
+			printf("loop exists\n");
+			for(j=tmp[i]->prev->data;j<=i;j++)
+				printf("%d->",j);
+				
+			printf("%d\n",tmp[i]->prev->data);	
+		}
+	}
+}
+
+bool check (int v,int graph[20][20],int color[],int c) 
+{ 
+    for (i=0;i<n;i++) 
+        if (graph[v][i] && c == color[i]) 
+            return false; 
+    return true; 
+} 
+
+void graphColoringUtil(int graph[20][20], int color[], int v) 
+{ 
+    if(v==(n+1)) 
+        return; 
+    for(c=1;c<=3;c++) 
+    { 
+        if(check(v,graph,color,c)) 
+        { 
+           color[v] = c; 
+           graphColoringUtil(graph,color,v+1);   
+        } 
+    }
+}
+
+void printSolution(int color[]) 
+{ 
+    printf("Following are the assigned colors \n"); 
+    for(i=1;i<=n;i++) 
+      	printf(" %d ", color[i]); 
+    printf("\n"); 
+} 
+
+void graphColoring(int G[20][20])
+{
+	int color[n];
+	for(i=1;i<=n;i++)
+		color[i]=0;
+		
+	graphColoringUtil(G,color,1);
+    printSolution(color);
+}
+
+int main()
+{
+	i=1;
+	char ans;
+	do
+	{
+		printf("enter tuple : ");
+		scanf("%d%d%d",&id[i],&p[i],&nex[i]);
+		i++;
+		printf("add more (y/n) : ");
+		scanf(" %c",&ans);
+	}while(ans=='y');
+	
+	n=i-1;
+	
+	printf("there are %d nodes...\n",n);
+	
+	for(i=1;i<n;i++)
+		G[i][nex[i]]=G[nex[i]][i]=1;
+	
+	for(i=2;i<=n;i++)
+		G[i][p[i]]=G[p[i]][i]=1;	
+				
+	for(i=1;i<=n;i++)
+		append(&head,i);
+		
+	for(i=1;i<=n;i++)			
+		bjoin(&head,i);	
+	
+	tmp[0] = NULL;
+	
+	display(head);	
+	
+	printf("\n");
+	
+	for(i=1;i<=n;i++)
+	{
+		for(j=1;j<=n;j++)
+		{
+			printf("%d ",G[i][j]);
+		}
+		printf("\n");
+	}
+		
+	loopDetect(head);
+	
+	graphColoring(G);
+}
