@@ -1,19 +1,26 @@
-3. Given a singly linked list, write a program to shuffle it according to the following rule: segregate all the
-elements in such a way that elements at positions k*i (where i starts from 1 and k<=1000, k may not be less
-than the number of elements present in the linked list, k may not be a multiple of the number of elements
-present in the linked list) appear before the rest of the elements and the remaining elements are appended
-in reverse order.
+6. Steph Curry is stuck at the horror house with a string of English lower-case characters as the only weapon.
+After searching the house, he finds a gate that can only be opened by a string that is an anagram of a
+palindrome of English lower-case characters. Check if Steph can come out of the horror house or not.
+Constraint:
+Length of the string <= 10
 Input:
-The first line contains the value of k.
-The second line contains the elements of the linked list (The total number of elements present in the linked
-list can’t be taken as an input).
-Output:
-An updated linked list based on the segregation rule described in the problem.
-Example:
-3
-1 2 3 4 5 6 7 8 9
-Output:
-3 6 9 8 7 5 4 2 1
+Given a string s
+Sample Input 1:
+aabaa
+Sample Output 1:
+Yes
+Sample Input 2:
+abaaa
+Sample Output 2:
+Yes
+Sample Input 3:
+a
+Sample Output 3:
+Yes
+Sample Input 4:
+aaba
+Sample Output 4:
+No
 *************************************************************************************************************
 
 #include <stdio.h>
