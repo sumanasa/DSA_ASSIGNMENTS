@@ -1,8 +1,8 @@
-5. Suppose you are given a set of vertices V such that a factor f is associated with each vertex. For each vertex u  V, f(u) denotes its
+5. Suppose you are given a set of vertices V such that a factor f is associated with each vertex. For each vertex u belongs to V, f(u) denotes its
 factor. An unweighted, undirected graph G can be constructed using the vertices of V according to the following construction algorithm – 
-for a pair of vertices, u, v  V, the edge (u, v) is included in G, if |f(u) – f(v)|   where  is a pre-defined threshold value. 
+for a pair of vertices, u, v belongs to V, the edge (u, v) is included in G, if |f(u) – f(v)| > t where t is a pre-defined threshold value. 
 If the threshold condition is not satisfied, the edge is not included in G. Note that here, the absolute value of the difference between 
-f(u) and f(v) have been considered. Given V and , write a C program to construct the graph G as per the above-mentioned algorithm. 
+f(u) and f(v) have been considered. Given V and t, write a C program to construct the graph G as per the above-mentioned algorithm. 
 After graph construction, your program should determine the different connected components of G. Note that a connected component of an 
 undirected graph is a subgraph in which any two vertices are connected to each other by paths, and which are connected to no additional 
 vertices in the supergraph. The number of connected components in the example graph shown below is 2. 
@@ -14,9 +14,12 @@ NULL NULL
 head 
 NULL NULL 
 
-The vertex set V and  are given as user inputs. |V|  1000, f and  are always integers. You may take the size of V as user input also.
+The vertex set V and  are given as user inputs. |V| < 1000, f and t are always integers. You may take the size of V as user input also.
 Your program should determine the graph, the number of connected components and the actual components. Display the output graph and each
 connected component as separate adjacency matrices. 
+
+EDIT : Q5. The input to the problem will be the vertex set V, factor of each vertex and t. |V| < 1000, f
+and t are positive integers.
 ***********************************************************************************************************************************
 
 #include<stdio.h>
