@@ -5,6 +5,12 @@ graph. The graph is given as user input in the form of an adjacency matrix. The 
 The graph can contain cycles, self-loops and a maximum of 1000 nodes. In addition to printing the diameter, your program should also 
 print all shortest paths (in case there are more than one) between every pair of vertices. Note that for an unweighted graph, the length 
 of the shortest path between a pair of vertices is the total number of edges lying in that path.
+EDIT : Q2. As part of the output, you don’t have to print all shortest path/paths between every pair of
+vertices. Your program should print the diameter of the graph and all the shortest path/paths
+whose length is equal to the diameter.
+However, if you have already written the code for printing all the shortest path/paths, there is
+no need to modify.
+
 ********************************************************************************************************************
 
 #include<stdio.h>
