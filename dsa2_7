@@ -1,0 +1,69 @@
+7. There are N cities with ids {1, 2, 3, 4, … , N} and N-1 roads connecting these cities. All roads are bidirectional in nature.
+Abhishek lives in City 1 so this can be considered as the source. There are M universities in various cities (there is no university in 
+City 1). Abhishek gets accepted in all the universities, however, he will take admission in the university which is at minimum distance
+from his city. If two or more cities are at the same minimum distance, then he will accept the university which is located in the city 
+with minimum id. No two universities are in the same city.  
+
+Input: First line consists of N, i.e. number of cities. Next N-1 lines follow the type u, v which denotes there is a road between u and v.
+Next line consists of M. Next M lines indicate ids of cities where universities are located. 
+ 
+Output: Print the id of the city with the university which Abhishek will accept.   
+Constraints: 2 <= N <= 100, 1 <= u, v <= N, 1 <= M <= (N-1) 
+****************************************************************************************************************************************
+
+#include <stdio.h>
+int n,graph[1000][1000];
+int copy[1000][1000];
+#define inf 99999
+int main()
+{
+    scanf("%d",&n);
+       for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            graph[i][j]=0;
+            copy[i][j]=inf;
+            
+            }
+        }
+    
+    for(int i=0;i<n-1;i++)
+    {
+        int u,v;
+        scanf("%d %d",&u,&v);
+        graph[u-1][v-1]=1;
+        graph[v-1][u-1]=1;
+        copy[u-1][v-1]=1;
+        copy[v-1][u-1]=1;
+    }
+  
+    for(int k=0;k<n;k++)
+    {
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(copy[i][j]>copy[i][k]+copy[k][j])
+                {
+                    copy[i][j]=copy[i][k]+copy[k][j];
+                }
+            }
+        }
+    }
+    int m;
+    scanf("%d",&m);
+    int min=inf,min_idx=inf;
+    for(int i=0;i<m;i++)
+    {
+        int x;
+        scanf("%d",&x);
+        if(copy[0][x-1]<=min && x<min_idx)
+        {
+            min=copy[0][x-1];
+            min_idx=x;
+        }
+    }
+    printf("univ in city %d at distance %d\n",min_idx,min);
+    
+}
