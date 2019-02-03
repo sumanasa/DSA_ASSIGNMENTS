@@ -1,0 +1,25 @@
+5. You are given an N*N matrix filled with 0s and 1s. You have to find out the largest region of 1s in the given
+matrix. A region is a set of connected 1s. Two 1s are connected if they are adjacent to each other horizontally, 
+vertically, diagonally. Constraint: N <= 1000. You have to only print the size of the largest region, i.e., the
+total number of 1s present in it.
+Input:
+First line contains N.
+Second line contains elements of the N*N matrix.
+Output: Largest region of 1s
+Example:
+5
+0 0 0 0 0
+0 1 1 1 0
+0 1 1 0 0
+1 0 0 0 1
+0 0 0 0 0
+Output: 6.
+Explanation:
+0 0 0 0 0
+0 1 1 1 0
+0 1 1 0 0
+1 0 0 0 1
+0 0 0 0 0
+The red 1s form the largest region. The blue 1 is not a part of the largest region since wrapping around is not
+considered in any of the directions. 
+*************************************************************************************************************
