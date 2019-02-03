@@ -1,0 +1,82 @@
+8. The advanced Atlantean city has N buildings. Our superhero Aquaman needs to go from one building in
+the city to another. The only way Aquaman can move in the city is through a network of M sharks. Every
+Shark can only move from one building to another. Given a query of the form (x, y), find if Aquaman can
+reach building y from building x using the network of M sharks. You may be given t such queries. Please note
+that if a Shark can move from building x to building y that doesn’t imply that it can also move from building
+y to building x.
+Constraint:
+1 <= N <= 1000
+1 <= M <=1000
+1 <= t <= 10
+1<=x<=N
+1<=y<=N
+Input:
+The first line contains two integers in the order N, M
+Given M lines with two building numbers a, b. Each line i represents that the ith shark can move from building
+a to building b
+This line contains value of the number of queries t
+Given t lines with two building numbers x, y
+Sample Input:
+5 6
+1 4
+1 2
+1 3
+4 2
+4 3
+5 1
+3
+3 5
+4 3
+5 3
+Sample Output:
+No
+Yes
+Yes
+*************************************************************************************************************************
+
+#include <stdio.h>
+#include <stdlib.h>
+int G[1000][1000],visited[1000];
+int n,e,s,d,t,reachable;
+
+void dfs(int src,int dest){
+    visited[src]=1;
+    if(src==dest){
+        printf("YES\n");
+        reachable = 1;
+        return;
+    }
+    for(int i=0;i<n;i++){
+        if(G[src][i]==1 && visited[i]==0)
+            dfs(i,dest);
+    }
+}
+
+int main(){
+    
+    printf("enter the no of buildings and sharks : ");
+    scanf("%d %d",&n,&e);
+    printf("mention end points of the sharks \n");
+    while(e--){
+        scanf("%d %d",&s,&d);
+        G[s][d]=1;
+    }
+    
+    printf("enter the no.of clues : ");
+    scanf("%d",&t);
+    
+    while(t--){
+        int u,v;
+        reachable = 0;
+        
+        printf("enter the source and destinations : ");
+        scanf("%d %d",&u,&v);
+        
+        dfs(u,v);
+        
+        memset(visited,0,sizeof(visited));
+        
+        if(reachable == 0)
+            printf("NO\n");
+    }
+}
