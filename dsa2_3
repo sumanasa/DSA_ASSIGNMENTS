@@ -1,0 +1,56 @@
+3. A bipartite graph is a graph whose vertices can be divided into two disjoint sets U and V such that every edge connects a vertex in U 
+to one in V. The diagram below shows an example bipartite graph. 
+Given an undirected, unweighted graph, write a C program to determine whether the graph is bipartite or not. The graph is given as user 
+input in the form of an adjacency matrix. The number of vertices and edges can be taken as user input. The graph can contain a maximum of 
+1000 nodes. Note that your program should be able to tell if the graph is bipartite or not. 
+*****************************************************************************************************************************************
+
+#include<stdio.h>
+#include<stdbool.h>
+
+int NB=0,V,vis[1000];
+int part[2];
+bool graph[100][100];
+
+void dfs(int u,int p)
+{
+    
+    part[u]=p;
+    vis[u]=1;
+    
+    for(int v = 0; v < V; ++v)
+    {
+        if(graph[u][v])
+        {
+            if(vis[v]==0)
+                dfs(v,1-p);
+            else if(part[u] == part[v])
+            {
+                NB=1;
+                return;
+            }
+        }
+    }
+        
+}
+int main()
+{
+	printf("enter no of vertices : ");
+	scanf("%d",&V);
+        printf("enter the adjacency matrix : \n");
+	for(int i=0;i<V;i++)
+	{
+		for(int j=0;j<V;j++)
+		{
+			scanf("%d",&graph[i][j]);
+                        
+		}
+	}
+	for(int ver = 0; ver < V; ++ver)
+        {
+            if(vis[ver]==0)
+                dfs(ver,0);
+        }
+        if(NB==1)
+             printf("not bipartite");
+}
