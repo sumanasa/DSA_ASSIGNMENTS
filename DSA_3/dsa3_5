@@ -23,3 +23,51 @@ Explanation:
 The red 1s form the largest region. The blue 1 is not a part of the largest region since wrapping around is not
 considered in any of the directions. 
 *************************************************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int n,arr[100][100],visited[100][100],count=0,max=0;
+int iseligible(int x,int y){
+    printf("        neighbor : %d , %d\n",x,y);
+    if(x>=0 && x<n && y>=0 && y<n && !visited[x][y] && arr[x][y])
+        return 1;   
+    return 0;
+}
+void dfs(int a,int b){
+    int flag=0;
+    int rowcnt[8] = {-1,-1,-1,0,0,1,1,1};
+    int colcnt[8] = {-1,0,1,-1,1,-1,0,1};
+    printf("  The position %d , %d is considered\n",a,b);
+    visited[a][b]=1;
+    for(int i=0;i<8;i++){
+            if(iseligible(a+rowcnt[i],b+colcnt[i])){
+                     flag = 1;
+                     ++count; 
+                     printf("   inner DFS upon %d , %d because of %d , %d\n",a+rowcnt[i],b+colcnt[i],a,b);
+                     dfs(a+rowcnt[i],b+colcnt[i]);
+            }
+    }
+    if(count>max)
+        max=count;
+    return ;
+}
+int main(){
+    printf("Enter the size of Matrix : ");    scanf("%d",&n);
+    printf("Enter the elements of matrix \n");
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            scanf("%d",&arr[i][j]);
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            if(arr[i][j]==1 && !visited[i][j]){
+                printf("New group from %d , %d \n",i,j);
+                memset(visited,0,sizeof(visited));
+                count=1;
+                dfs(i,j);
+            }           
+        }
+    } 
+    printf("The max value is : %d",max);
+}
