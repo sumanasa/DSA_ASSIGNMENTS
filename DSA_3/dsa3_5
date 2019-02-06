@@ -34,14 +34,12 @@ int iseligible(int x,int y){
     return 0;
 }
 void dfs(int a,int b){
-    int flag=0;
     int rowcnt[8] = {-1,-1,-1,0,0,1,1,1};
     int colcnt[8] = {-1,0,1,-1,1,-1,0,1};
     printf("  The position %d , %d is considered\n",a,b);
     visited[a][b]=1;
     for(int i=0;i<8;i++){
             if(iseligible(a+rowcnt[i],b+colcnt[i])){
-                     flag = 1;
                      ++count; 
                      printf("   inner DFS upon %d , %d because of %d , %d\n",a+rowcnt[i],b+colcnt[i],a,b);
                      dfs(a+rowcnt[i],b+colcnt[i]);
