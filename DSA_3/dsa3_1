@@ -39,7 +39,6 @@ Following the order of removals in array a, you first remove ‘d’, then ‘f�
 int size,plen,tlen,k=0,ans=0,NF;
 int order[100],visited[100],op[100];
 char t[100],p[100];
-/***************************************************************************/
 void updateArray(int i){
     int flag=0;
     for(int j=0;j<tlen;j++){
