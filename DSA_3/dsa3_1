@@ -30,7 +30,8 @@ abb
 Output :
 3
 Explanation:
-Following the order of removals in array a, you first remove ‘d’, then ‘f’, then ‘e’. Now if you remove 
+Following the order of removals in array a, you first remove ‘d’, then ‘f’, then ‘e’. Now if you remove the 
+7th letter which is ‘b’, then abb is in no way obtainable. So, you stop after 3 operations and output is 3.
 **********************************************************************************************************
 
 #include<stdio.h>
