@@ -1,0 +1,32 @@
+3. You are given a sorted list of elements. All of the elements in the array occur twice except for one element.
+Find the element that occurs only once.
+Example:
+1 1 4 4 5 6 6
+Answer:
+5
+************************************************************************************************
+
+#include <stdio.h>
+int main(){
+    int n=0,arr[100];
+    char ch;
+    while(scanf("%d",&arr[n])){
+        scanf("%c",&ch);
+        n++;
+        if(ch!=' ') break;
+    }
+    for(int i=0;i<n;i++){
+        int temp = arr[i],flag=0; 
+        for(int j=0;j<n;j++){
+            if(i==j) continue;
+            if(arr[j]==temp){
+            flag=1;
+            break;
+            }
+        }
+        if(flag==0){
+            printf("%d",arr[i]);
+            return;
+        }        
+    }
+}
