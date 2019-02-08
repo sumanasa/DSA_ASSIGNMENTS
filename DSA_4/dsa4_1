@@ -1,0 +1,74 @@
+1. You go to the Egyptian market to get souvenirs for your friends and family. The market has weird rules. It has n different items 
+numbered from 1 to n. Each item i has a base cost of a[i] Egyptian pounds. If you buy k different items with indices x1, x2, x3, …, xk 
+then the cost of each item is a[i]+xj*k where j varies from 1 to k. In other words, the cost of an item is equal to its base cost in 
+addition to its index multiplied by the factor k.
+You want to buy as many souvenirs as possible and your budget is S Egyptian dollars. Find the maximum number of items you can buy. In 
+case the number of items is same, choose the one with the lowest total cost.
+Input:
+First line contains n and your total budget S.
+Second line contains n different integers each of which denotes the cost of each item.
+Output:
+Two integers which denote the number of items and total cost you will be spending.
+Example:
+3 14
+2 3 5
+Answer:
+2 11
+Explanation:
+You cannot get 3 items because they will cost you [5,9,14] and the total cost would be 28. If you get 2 items, then the items would 
+cost [4,7]. So, you can get items costing 4,7 which will cost you a total of 11 Egyptian dollars.
+*************************************************************************************************************************************
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int n,base_price[100],total_cost[100];
+void swap(int* x,int* y){
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+void sort(){
+    for(int i=1;i<=n-1;i++){
+        for(int j=i+1;j<=n;j++){
+            if(total_cost[j]<total_cost[i])
+            {
+                swap(&total_cost[i],&total_cost[j]);
+            }
+        }
+    }
+}
+int calculate(int curr_k){
+    memset(total_cost,0,sizeof(total_cost));
+    for(int i = 1 ; i <= n ; i++){
+        total_cost[i] += ( base_price[i]+ ( i*curr_k ) );
+    }
+    sort();
+    int total=0;
+    for(int i=1 ; i <= curr_k ; i++){
+        total += total_cost[i] ;
+    }
+    return total;
+}
+int main(){
+    int k=1,budget,curr_costs=0;
+    scanf("%d%d",&n,&budget);   
+    for(int i=1;i<=n;i++){
+        scanf("%d",&base_price[i]);
+    }    
+    for(int i=1;i<=n;i++){ 
+        curr_costs = calculate(k);
+        if(curr_costs<budget){
+            k++;
+            continue;
+        }
+        else if(curr_costs>budget){
+            k--;
+            curr_costs = calculate(k);
+            break;
+        }
+    }
+    if(k>0)
+        printf("no of items : %d and cost : %d\n",k,curr_costs);
+    return 0;
+}
