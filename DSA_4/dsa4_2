@@ -1,0 +1,42 @@
+2. You are trying to solve questions for the DSA lab exam. The question set consists of a large number of
+different questions. You are exhausted today, so you decide to solve the problems like this:
+You first solve v problems, the drink a cup of tea and solve floor(v/k) problems (where floor() function
+returns the largest possible integer value which is less than or equal to the given argument), then
+floor(v/(k*k) ), then floor(v/k*k*k) and so on…
+The moment the value floor(v/(k^p) ) is equal to zero you stop and go to sleep.
+Find the minimum value of v such that you solve not less than n questions.
+Input:
+Two integers n and k.
+Output:
+Print only one integer – the minimum value of v that lets you solve n questions.
+Example:
+7 2
+Answer:
+4
+Explanation:
+When v = 4, then he solves the questions like this: 4, 2, 1.
+Thus, he manages to solve 4+2+1 = 7 questions.
+********************************************************************************************************
+
+METHOD 1 :
+
+#include <stdio.h>
+#include <math.h>
+int main(){
+    int n,k;
+    printf("Enter n & m : ");
+    scanf("%d %d",&n,&k);
+    for(int v=1; v<=n; v++){
+        int p = 0,sum = 0;
+        while (pow(2,p) <= v) {
+            int a = v/(pow(2,p));
+            sum += a;
+            p++;
+        }
+        if(sum == n){
+            printf("%d",v);
+            break;
+        }
+    }
+}
+
