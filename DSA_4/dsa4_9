@@ -31,10 +31,10 @@ int main(){
             if(i%2==0)
                 prev = arr[i];
             else{ 
-                flag=1;
-                if(prev!=arr[i] && i!=1)
-                    ans = arr[i];
-                else ans = prev;
+                if(prev!=arr[i]){
+                    ans = prev;
+                    flag = 1;
+                }
             }
         }
     }
