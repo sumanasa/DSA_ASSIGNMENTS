@@ -56,7 +56,7 @@ int main(){
             prev = arr[i];
     }
     printf("enter the value of k : ");   scanf("%d",&k);
-    int x = binsearch(0,size,arr,k);
+    int x = binsearch(0,size-1,arr,k);
     if(prev == k)
         printf("%d",x-1);
     else printf("%d",x);
