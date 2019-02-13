@@ -1,0 +1,59 @@
+8. Jon Snow likes Ygritte and decided to propose her. As Ygritte is very shrewd, she decided to give him a
+task. She gives him a sorted list of n numbers and rotates it several times. She now asked him to find the
+position of number k on the list as fast as possible. Help him to find the love of his life. Solve this problem
+using binary search. Assume that index starts from 1.
+Constraints:
+1<=n<=100000
+1<=k<=10000
+1<=number on the list<=10000
+Input:
+This line contains integer n
+This line contains numbers on the list
+This line contains k
+Sample Input:
+5
+4 5 1 2 3
+3
+Sample Output:
+5
+Sample Input:
+5
+2 4 6 0 1
+6
+Sample Output:
+3
+*****************************************************************************************************
+
+#include<stdio.h>
+#include<limits.h>
+int size,min=INT_MAX,min_index=0;
+int binsearch(int low,int high,int array[],int x){
+    while(low <= high){
+        int mid = low + ( high - low ) / 2; 
+        if(x == array[mid])
+            return ((mid%size)+min_index-1);         //index from 1
+        else if(x > array[mid])
+            low = mid + 1;
+        else 
+            high = mid - 1;      
+    }
+    return -1;
+}
+int main(){
+    int k;
+    printf("enter the size : ");   scanf("%d",&size);
+    int arr[2*size];
+    printf("enter the elements of array : \n");
+    for(int i=0;i<size;i++){
+        scanf("%d",&arr[i]);
+        arr[i+size]=arr[i];
+        if(min > arr[i]){
+            min = arr[i];
+            min_index = i;
+        }
+    }
+    printf("enter the value of k : ");   scanf("%d",&k);
+    int x = binsearch(min_index,min_index+size-1,arr,k);
+    printf("%d",x);
+    return 0; 
+}
