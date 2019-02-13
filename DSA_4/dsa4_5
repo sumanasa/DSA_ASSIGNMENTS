@@ -1,0 +1,54 @@
+5. You are working in a factory and you have n machines running simultaneously. Each of the machinestakes
+a certain time (in secs) to produce an item. The time is different for different machines. Your task is to find
+the minimum time required to produce m items using Binary Search.
+Input: First line contains n and m.
+Second line contains an array which denotes how much each machine takes to produce an item.
+Output:
+Single integer denoting the minimum time to produce m items.
+Example:
+3 11
+1 2 3
+Answer:
+6
+Explanation:
+In 6 secs, machine 1 will produce 6 items, machine 2 will produce 3 and machine 3 will produce 2.
+********************************************************************************************************
+
+#include<stdio.h>
+int size;
+int calc_products(int time_in_sec,int array[]){
+    int n=0;
+    for(int i=0;i<size;i++){
+        n += (time_in_sec/array[i]);
+    }
+    return n;
+}
+int binsearch(int low,int high,int noOfProducts,int array[]){
+    int mid;
+    while(low <= high){
+        mid = low + ( high - low ) / 2; 
+        int x = calc_products(mid,array);
+        if(x == noOfProducts)
+            return mid;
+        else if(x < noOfProducts)
+            low = mid + 1;
+        else 
+            high = mid - 1; // 'else' but not 'else if' coz now the loop ends even if (low=high and x!=required) since high<low 
+                            // after this operation 
+    }
+    return mid;   // doesn't matter ig
+}
+int main(){
+    int ans,max=0,m;
+    printf("enter the size and m : \n");   scanf("%d %d",&size,&m);
+    int arr[size];
+    printf("enter the elements of array : \n");
+    for(int i=0;i<size;i++){
+        scanf("%d",&arr[i]);
+        if(max<arr[i])
+            max = arr[i];
+    }
+    max = m*max; //max time taken 
+    ans = binsearch(0,max,m,arr); // m is no_of_products needed
+    printf("Time required is %d seconds\n",ans);
+}
