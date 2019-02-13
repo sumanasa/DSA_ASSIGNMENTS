@@ -57,14 +57,14 @@ int binsearch(int low,int high,int n1,int diff,int array[]){
 }
 int main(){
     int d;
-    printf("enter the size : \n");   scanf("%d",&size);
+    printf("enter the size : ");   scanf("%d",&size);
     int arr[size];
     printf("enter the elements of array : \n");
     for(int i=0;i<size;i++){
         scanf("%d",&arr[i]);
     }
     sort(arr);
-    printf("enter the value of d : \n");   scanf("%d",&d);
+    printf("enter the value of d : ");   scanf("%d",&d);
     
     for(int i=0;i<size;i++){
         int n1 = arr[i];
