@@ -1,0 +1,64 @@
+7. Senti and Panda are best friends. Senti loves cocktails. Senti has decided to rank his favourite n cocktails
+based on their price. Panda as a prank decided to swap two adjacent numbers on the ranked order. Senti
+got very emotional after that and asked his friend Moggie to order a drink for him for k price and also tell
+him its current rank on the new list. Help Moggie to find the current rank. If it is not there on the list return
+-1. Solve this problem using binary search.
+Constraints:
+1<=n<=100000
+1<=k<=10000
+1<=Price of a cocktail<=10000
+Input:
+This line contains integer n
+This line contains an updated price list
+This line contains k
+Sample Input:
+7
+3 10 40 20 50 70 80
+40
+Sample Output:
+3
+Sample Input:
+6
+51 221 131 1222 5550 8000
+123
+Sample Output:
+-1
+****************************************************************************************************
+
+#include<stdio.h>
+#include<limits.h>
+int size,prev = INT_MIN;
+int binsearch(int low,int high,int array[],int x){
+    while(low <= high){
+        int mid = low + ( high - low ) / 2; 
+        if(x == array[mid])
+            return (mid+1);         //index from 1
+        else if(x > array[mid])
+            low = mid + 1;
+        else 
+            high = mid - 1;      
+    }
+    return -1;
+}
+int main(){
+    int k,flag;
+    printf("enter the size : ");   scanf("%d",&size);
+    int arr[size];
+    printf("enter the elements of array : \n");
+    for(int i=0;i<size;i++){
+        scanf("%d",&arr[i]);
+        if(prev > arr[i]){
+            flag = 1;
+            arr[i-1] = arr[i];
+            arr[i] = prev;
+        }    
+        if(!flag)
+            prev = arr[i];
+    }
+    printf("enter the value of k : ");   scanf("%d",&k);
+    int x = binsearch(0,size,arr,k);
+    if(prev == k)
+        printf("%d",x-1);
+    else printf("%d",x);
+    return 0; 
+}
