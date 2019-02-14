@@ -66,16 +66,4 @@ int main(){
     else printf("%d ",x);
     return 0; 
 }
-            arr[i-1] = arr[i];
-            arr[i] = prev;
-        }    
-        if(!flag)
-            prev = arr[i];
-    }
-    printf("enter the value of k : ");   scanf("%d",&k);
-    int x = binsearch(0,size-1,arr,k);
-    if(prev == k)
-        printf("%d",x-1);
-    else printf("%d",x);
-    return 0; 
-}
+            
