@@ -1,1 +1,83 @@
-**********blank************
+4. You and your friends are playing the game of stacking a pile of dominos. There are several towers of
+dominos each with some height. You are given with some initial configuration of the towers. To
+increase/decrease the height you need to add/remove the dominos. The number of dominos in the game
+remains the same. Adding/removing incurs a cost which is different for different towers. You are assigned
+with the task of making a set of towers such that all the towers have same height and the cost incurred is as
+minimum as possible. Note that the initial number of towers and final number of towers may not be the
+same.
+Input:
+First line contains the number of towers.
+Second line contains the number of dominos in each tower.
+Third line contains the cost incurred for each tower when adding/removing a domino.
+Output:
+Minimum cost, number of towers, height of each tower
+Example:
+3
+1 2 3
+10 100 200
+Answer:
+110, 2, 3
+Explanation: Remove a domino from Tower 1 (Cost 10) and add it to Tower 2 (Cost 100). Total cost is 110.
+Note that the number of dominos (6) remains the same, however, the number of towers has become 2 and
+the height of each tower is 3. 
+*************************************************************************************************************
+
+#include<stdio.h>
+#include<limits.h>
+#define min(a,b) ((a<b)?a:b)
+#define max(a,b) ((a>b)?a:b)
+#define N 10000
+
+int a[N],c[N],n,sum=0;
+int pro(int curr_ht){
+    int towercnt = sum/curr_ht;
+    int b[n];
+    int minimum=INT_MAX;
+    for(int p=0 ; p < pow(2,n) ; p++){
+        int s=0;
+        for(int j=0;j<n;j++){
+            if(p&(1<<j)){
+                s++;
+            }
+        }
+        if(s==curr_ht){
+            for(int h=0;h<n;h++){
+                b[h]=0;
+            }
+            for(int j=0;j<n;j++){
+                if(p&(1<<j)){
+                    b[j] = towercnt;
+                }
+            }
+            int cost_sum=0;
+            for(int j=0;j<n;j++){
+                cost_sum+=((max(a[j],b[j])-min(a[j],b[j]))*c[j]);
+            }
+            minimum = min(minimum,cost_sum);
+        }
+    }
+    return minimum;
+}
+int main(){
+    int i,min_cost=INT_MAX,no_of_towers=0,eq_height=0;
+    scanf("%d",&n);
+    for(i=0;i<n;i++){
+        scanf("%d",&a[i]);
+        sum+=a[i];
+    }
+    for(i=0;i<n;i++){
+        scanf("%d",&c[i]);
+    }
+    for(i=1;i<=n;i++){ // i is for no_of_towers
+        if(sum%i==0){  // no_of_towers is a factor of total heights coz total/no_of_towers is eq_ht
+            int curr_min_cost = pro(i);
+            if(curr_min_cost < min_cost){
+                min_cost = curr_min_cost;
+                no_of_towers = i;
+                eq_height = sum/i;
+            }
+        }
+    }
+    printf("%d, %d, %d\n",min_cost,no_of_towers,eq_height);
+    return 0;
+}
