@@ -21,7 +21,6 @@ Explanation: Remove a domino from Tower 1 (Cost 10) and add it to Tower 2 (Cost 
 Note that the number of dominos (6) remains the same, however, the number of towers has become 2 and
 the height of each tower is 3. 
 *************************************************************************************************************
-
 #include<stdio.h>
 #include<limits.h>
 #define min(a,b) ((a<b)?a:b)
@@ -29,8 +28,8 @@ the height of each tower is 3.
 #define N 10000
 
 int a[N],c[N],n,sum=0;
-int pro(int curr_ht){
-    int towercnt = sum/curr_ht;
+int pro(int curr_n){
+    int towercnt = sum/curr_n;
     int b[n];
     int minimum=INT_MAX;
     for(int p=0 ; p < pow(2,n) ; p++){
@@ -40,7 +39,7 @@ int pro(int curr_ht){
                 s++;
             }
         }
-        if(s==curr_ht){
+        if(s==curr_n){
             for(int h=0;h<n;h++){
                 b[h]=0;
             }
@@ -58,6 +57,7 @@ int pro(int curr_ht){
     }
     return minimum;
 }
+
 int main(){
     int i,min_cost=INT_MAX,no_of_towers=0,eq_height=0;
     scanf("%d",&n);
@@ -81,3 +81,4 @@ int main(){
     printf("%d, %d, %d\n",min_cost,no_of_towers,eq_height);
     return 0;
 }
+
