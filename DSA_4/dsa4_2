@@ -33,9 +33,9 @@ int main(){
             sum += a;
             p++;
         }
-        if(sum == n){
+        if(sum >= n){
             printf("%d",v);
-            break;
+            return 0;
         }
     }
 }
