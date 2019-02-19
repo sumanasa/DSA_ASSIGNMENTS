@@ -29,7 +29,17 @@ Output:
 **********************************************************************************************8
 
 #include<stdio.h>
-#define N 1000
+void sortarr(int a[],int n){
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            if(a[i]>a[j]){
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+    }
+}
 int main(){
     int n1,n2,k=0;
     scanf("%d%d",&n1,&n2);
@@ -41,6 +51,7 @@ int main(){
     for(int i=0;i<n2;i++){
         scanf("%d",&arr2[i]);
     }
+    sortarr(arr1,n1);
     for(int i=0;i<n2;i++){
         for(int j=0;j<n1;j++){
             if(arr2[i]==arr1[j] && !visited1[j]){
