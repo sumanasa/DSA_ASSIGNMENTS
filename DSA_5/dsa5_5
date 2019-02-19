@@ -27,3 +27,66 @@ Explanation : (Not possible to construct a number divisible by 3 consisting of a
 more than three 5s.)
 
 ***********************************************************************************************************************
+#include<stdio.h>
+void swap(int* a,int* b){int temp=*a ; *a=*b ; *b=temp;}
+void sortarr(int a[],int n){
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            if(a[i]<a[j]){
+                swap(&a[i],&a[j]);
+            }
+        }
+    }
+}
+int main(){
+    int n,sum=0,end,k=0;
+    scanf("%d",&n);
+    end = n-1;
+    int arr[n]={},ans[n]={};
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+        sum += arr[i];
+    }
+    sortarr(arr,n);
+    int y = sum%3;
+    printf("remainder is : %d\n",sum%3);
+    if(y == 0){        //if remainder is 1 or 2
+        for(int i=0;i<n;i++)
+            printf("%d ",arr[i]);
+        printf("\n");
+        return 0;
+    }
+    else if(y != 0){    //if remainder is 1 or 2                      
+        int cnt = 1;          // first element which has the same remainder remove it 
+        printf("removing %d elements with remainder = %d \n",cnt,y);
+        for(int i=end;i>=0;i--){
+            if(arr[i]%3 == y && cnt){
+                cnt--;
+                continue;
+            }
+            else
+                ans[k++]=arr[i];
+        }
+        if(cnt!=0){           // if there is no element which has a same remainder as y 
+            y = 3-y;          // subtract it from 3 ( could be one or two)
+            cnt = 2;          // first 2 minimal elements which has the same remainder remove them 
+            k=0;
+            printf("removing %d elements with remainder = %d \n",cnt,y);
+            for(int i=end;i>=0;i--){
+                if(arr[i]%3==y && cnt){
+                    cnt--;
+                    continue;
+                }
+                else
+                    ans[k++]=arr[i];
+            }
+        }
+        if(cnt==0){
+          for(int i=k-1;i>=0;i--)
+              printf("%d",ans[i]);
+          return 0;
+        }
+        printf("-1");
+    }
+    return 0;
+}
