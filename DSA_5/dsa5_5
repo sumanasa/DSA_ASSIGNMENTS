@@ -1,0 +1,29 @@
+5. Klay Thompson is one the best 3-pointer shooters in the history of NBA. He is so much obsessed with the
+number 3 that his team mates gave him a task. They gave him an array of numbers 0-9 (not necessarily
+containing all the 10 digits and not necessarily containing only unique digits in sorted order) and asked him
+to come up with the largest number that is divisible by 3 using these digits. If no such number is possible, he
+will have to say “No such number”. The number of digits present in the output can vary between 1 and the
+size of the array. You are allowed to use any element of the input array only once.
+Input:
+The first line contains the size of the array.
+The second line contains the elements of the array.
+Output:
+The largest number divisible by 3.
+Example
+Input:
+5
+5 4 3 1 1
+Output:
+4311 
+Explanation : (Not possible to construct a number divisible by 3 consisting of all the 5 digits. You cannot create a
+number consisting of more than one 3 or 4 since these digits are only present once in the input array.
+However, 1 is present twice in the output since the input array contained two 1s.)
+Input:
+5
+0 5 5 5 7
+Output:
+5550 
+Explanation : (Not possible to construct a number divisible by 3 consisting of all the 5 digits. Also, you cannot use
+more than three 5s.)
+
+***********************************************************************************************************************
