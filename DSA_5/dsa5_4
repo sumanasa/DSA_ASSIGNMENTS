@@ -1,0 +1,70 @@
+4. Aman, Ketan and Shreya always hangout on marine drive. But whenever they ask Apoorva to hang out,
+she is busy doing homework. They want to help her finish the homework faster. Can you help them
+understand Apoorva’s homework so that she can hang out with them?
+Consider an array of arr of n distinct integers. Any two elements of the array can be swapped any number
+of times. An array is beautiful if the sum of all |arr[i] - arr[i-1]| (absolute value) for 1 <= i <= (n -1) is minimal.
+Given the array arr, determine the minimum number of swaps that should be performed in order to make
+the array beautiful. Note that you are not allowed to make any extra swaps other than what you are
+displaying as output.
+Input:
+The first line contains the number of elements of the array.
+The second line contains the elements of the array
+Output:
+The number of swaps required to make the array beautiful.
+Example
+Input:
+4
+7 15 12 3
+Output:
+2
+Explanation:
+After first swap -> 3 15 12 7
+After second swap -> 3 7 12 15
+Input:
+4
+2 5 3 1
+Output:
+2
+Explanation:
+After first swap -> 2 1 3 5
+After second swap -> 1 2 3 5
+
+INPUT :
+13
+26 3 59 2 3 5 6 8 4 2 3 6 27
+OUTPUT :
+
+***********************************************************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+void swap(int* a,int* b){int temp=*a ; *a=*b ; *b=temp;}
+// to find the farthest minimum
+int getmin(int k,int a[],int n){ 
+    int minval = a[k-1],index = k-1,flag = 0;
+    for(int j=k;j<n;j++){
+        if(minval>a[j]){
+            index = j;
+            minval = a[j];
+        }
+    }
+    for(int j=index+1;j<n;j++)
+        if(minval == a[j])
+            index = j;
+    return index;
+}   
+int main(){
+    int n,cnt=0;
+    scanf("%d",&n);
+    int arr[n];
+    for(int i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+    for(int i=0;i<n;i++){
+        int min_index = getmin(i+1,arr,n);
+        if(arr[min_index] != arr[i]){     //if value is not the same
+            swap(&arr[i],&arr[min_index]);
+            cnt++;
+        }
+    }
+    printf("%d",cnt);
+}
