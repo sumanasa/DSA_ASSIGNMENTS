@@ -1,0 +1,110 @@
+1. Captain America and Iron Man are fighting but instead of collecting other superheroes, they plan on
+collecting ranges. You have n ranges and have been assigned the task of dividing the ranges between the
+two teams. Every range i has a left limit li and a right limit ri. You have to divide the groups in such a way
+that, there is no pair of ranges, each from a different group which have a common point. However, ranges
+assigned to the same group may have a common point. Each range should belong to exactly one group. You
+have to print IM if you assign a range to Team Iron Man and print CA if you assign the range to Team Captain
+America. If an assignment is impossible, print -1. There is no restriction on the number of ranges that you
+can assign to a team. But the assignment cannot be too skewed also, meaning that out n ranges, you can’t
+give (n -1) ranges to one team and the remaining 1 range to the other team. Note that for a given set of
+ranges, multiple assignments are possible. Determine any one of them. If you see that the only possible
+assignment of ranges is to give (n - 1) range to one team and the remaining range to the other team, then
+you can report it to be your output. But if some alternate assignment is also possible, then the alternate one
+should be reported. Duplicate ranges can be present also.
+Input:
+The first line contains one integer T (1 ≤ T ≤ 50000) — the number of queries. Each query contains description
+of the set of ranges. Queries are independent. First line of each query contains a single integer n (2 ≤ n ≤
+105) — the number of segments. It is guaranteed that ∑n over all queries does not exceed 105. Each of the
+next n lines contains two integers li, ri (1 ≤ li ≤ ri ≤ 2⋅105) for range i.
+Example
+Input:
+3
+2
+5 5
+2 3
+3
+3 5
+2 3
+2 3
+3
+3 3
+4 4
+5 5
+Comment: Here there are total 3 queries, i.e., there are 3 sets of ranges. The first set contains 2 ranges - (5,
+5) and (2, 3). The second set contains 3 ranges - (3, 5), (2, 3) and (2, 3). The third set contains 3 ranges - (3,
+3), (4, 4), (5, 5).
+Output:
+CA IM
+-1
+IM IM CA
+Explanation:
+For the first query, since only two ranges (n = 2) are present, you have to assign one range to team IM and
+one to team CA. For the second query, no assignment is possible because of the presence of the common
+point. For the last query, since n = 3, you have to give two ranges, (i.e, n - 1) to one team and the remaining
+to the other. For the first and last query, no other assignment was possible. 
+**************************************************************************************************************
+#include<stdio.h>
+#define N 1000
+int main(){
+    int sets,size,id[N]={0},arr[N],k=0,maxid=-1;
+    scanf("%d",&sets);
+    while(sets--){
+        scanf("%d",&size);
+        for(int i=0;i<2*size;i+=2){
+            scanf("%d%d",&arr[i],&arr[i+1]);
+        }
+        id[0] = 1;
+        for(int i=0;i<2*size-2;i+=2){
+            int a = arr[i],b=arr[i+1];
+            for(int j=0;j<2*size;j+=2){
+                if( (a<=arr[j] && b>=arr[j]) || (a>=arr[j] && a<=arr[j+1]))
+                    id[i] = id[j];
+                else if(j>i)
+                    id[i] = 1+id[j];
+                if(maxid < id[i])
+                    maxid = id[i];
+            }
+        }
+        for(int i=0;i<2*size;i+=2)
+            printf("%d ",id[i]);
+        printf("\n");
+        int flag = 0;
+        for(int i=0;i<2*size;i+=2){
+            if(id[i] != id[i+2]){
+                flag = 1;
+                break;
+            }
+        }
+        if(!flag){
+            printf("-1");
+            return 0;
+        }
+        int A=0,B=0,visited[N]={0},group[N]={-1};
+        for(int i=0;i<2*size;i+=2){
+            if(A<=B && !visited[id[i]]){
+                id[i] = 1;
+                visited[id[i]] = 1;
+                group[id[i]] = 1;
+                A++;
+            }
+            else if(A>B && !visited[id[i]])
+            {
+                id[i] = 0;
+                visited[id[i]] = 1;
+                group[id[i]] = 0;
+                B++;
+            }
+            else{
+                int x = id[i];
+                id[i] = group[x];
+            }
+        }
+        for(int i=0 ; i<2*size ; i+=2){
+            if(id[i])
+                printf("CA ");
+            else 
+                printf("IM ");
+        }     
+        printf("\n");
+    }
+}
