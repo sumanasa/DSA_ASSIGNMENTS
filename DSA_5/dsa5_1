@@ -61,8 +61,6 @@ int main(){
                     id[i] = id[j];
                 else if(j>i)
                     id[i] = 1+id[j];
-                if(maxid < id[i])
-                    maxid = id[i];
             }
         };
         int flag = 0;
