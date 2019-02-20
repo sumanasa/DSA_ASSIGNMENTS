@@ -58,9 +58,9 @@ int main(){
             int a = arr[i],b=arr[i+1];
             for(int j=0;j<2*size;j+=2){
                 if( (a<=arr[j] && b>=arr[j]) || (a>=arr[j] && a<=arr[j+1]))
-                    id[i] = id[j];
+                    id[j] = id[i];
                 else if(j>i)
-                    id[i] = 1+id[j];
+                    id[j] = 1+id[i];
             }
         };
         int flag = 0;
