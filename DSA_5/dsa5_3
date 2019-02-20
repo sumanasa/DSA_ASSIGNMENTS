@@ -136,7 +136,6 @@ void printlist(node** head){
     }
     printf("\n");
 }
-
 int main() {
     int x,n,a,b;
     char ch;
@@ -149,8 +148,7 @@ int main() {
             break;
     }
     scanf("%d",&n);
-    while(n--)
-    {
+    while(n--){
         scanf("%s",s);
         if(strcmp(s,"I")==0){
             scanf("%d",&a);
@@ -171,4 +169,3 @@ int main() {
     }
     return 0;
 }
-
