@@ -62,7 +62,7 @@ int main(){
                 else if(j>i)
                     id[j] = 1+id[i];
             }
-        };
+        }
         int flag = 0;
         for(int i=0;i<2*size;i+=2){
             if(id[i] != id[i+2]){
