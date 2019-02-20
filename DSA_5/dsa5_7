@@ -1,0 +1,103 @@
+7. You are given an undirected, unweighted, connected graph without self-loops consisting of n vertices. For
+convenience, we will assume that the graph vertices are indexed using integers from 1 to n. One day, you
+counted the shortest distances from one of the graph vertices to all others and wrote them in an array d.
+Thus, element d[i] of the array shows the shortest distance from the vertex you chose to vertex number i.
+Then you lost the graph and also forgot which vertex you chose as the source. Form the graph using the
+array d.
+Input:
+One integer n.
+The array d of size n.
+Output:
+If there is no such graph print -1. Otherwise output the integer m which is the number of edges. In each of
+the next m lines, print two integers, ai and bi,separated by a space, denoting the edge that connects vertices
+with numbers ai and bi. The graph shouldn't contain self-loops and should have only one edge between a
+pair of vertices. If there are multiple possible answers, print any one of them. m >= |d| meaning you are
+allowed to add a few extra edges apart from the information derived from the array d keeping in mind the
+constraint that you have to create exactly one cycle and that cycle should consist of the minimum number
+of edges. In other words, if multiple cycles are possible, you are allowed to include the one containing the
+minimum number of edges. If there is a tie in this regard, you can select any one of the cycles. You are not
+allowed to alter the shortest distances of the original graph, i.e., in the graph that you will construct
+(containing the cycle), the shortest distances of every vertex from the source should be the same as those
+present in the array d. In case, no graph can be constructed using the given input and also keeping in mind
+the above mentioned constraints, report -1 as output.
+Example:
+Input:
+3
+0 1 1
+Output:
+3
+1 2
+1 3
+3 2
+Explanation:
+Here only one cycle is possible.
+Input:
+5
+1 0 2 1 1
+Output:
+5
+1 2
+1 3
+2 4
+2 5
+1 4
+Explanation: (1 4) is the additional edge. Instead of (1 4), (2 3), (1 5), (4 5) could also have been selected.
+However, (3 4) would have been a wrong choice.
+*****************************************************************************************************
+#include <stdlib.h>
+#define N 1000
+int main(){
+    int arr[N],n,src,max=-1,no_of_v[N]={}; //no_of_v at dist index from src
+    scanf("%d",&n);
+    for(int i=1; i<=n; i++){
+        scanf("%d",&arr[i]);
+        no_of_v[arr[i]]++;
+        if(arr[i] == 0)
+            src = i;
+        if(max<arr[i])
+            max = arr[i];
+    }
+    for(int i=0;i<=max;i++){ //if some "dist" is missing between 0 and max eg. 0 1 4 2
+        if(no_of_v[i]==0){
+            printf("-1 : invalid input\n");
+            return 0;
+        }
+    }
+    int flag = 0;
+    for(int i=0;i<=max;i++){ //if all elements of given array distinct means shd be atleast one elem in no_of_v whose val is not 1
+        if(no_of_v[i]!=1){
+            flag = 1;
+            break;
+        }
+    }
+    if(!flag){
+        printf("-1 : impossible\n");
+        return 0;
+    }  
+    printf("edges : %d\n",n);
+    int cycle = 0,s = src ,n1, n2;
+    for(int d=1;d<=max;d++){
+        int flag = 0;
+        for(int i=1;i<=n;i++){
+            if(arr[i] == d){
+                printf("%d %d\n",s,i);
+                
+                //// only if additional edge is not figured out
+                    if(!cycle){   
+                        if(!flag){ //if didnt find second element at the same dist as this is from the src
+                             n1 = i;
+                            flag = 1;
+                        }
+                        else{
+                            n2 = i;
+                            cycle = 1; //cycle formed
+                        }
+                    }
+                //// above "if" for additional edge
+            }
+        }
+        s = n1;
+    }
+    printf("%d %d : additional edge \n",n1,n2);
+    return 0;
+}
