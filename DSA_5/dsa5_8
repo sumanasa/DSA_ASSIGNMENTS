@@ -72,7 +72,7 @@ int main(){
         totalx += costX[--x];
     }
     total = totalp+totalx;
-    while(n1-- && x+p >= n1){
+    while(n1--){
         if( p>0 && x>0 && costP[p] < costX[x]){
             ans++;
             total += costP[--p];
