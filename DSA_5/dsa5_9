@@ -15,7 +15,7 @@ Output:
 Print a single integer — the minimum number of measurements you will have to remove
 Example:
 Input:
-6
+7
 4 5 3 8 3 7 8
 Output:
 3
