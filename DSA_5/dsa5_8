@@ -1,0 +1,94 @@
+8. It is Christmas time and you have offered to be the Santa Clause for your village. You want to gift the
+children XBOX or PS4. For this, you will have to buy PS4s and XBOXs, but you want to spend as little as
+possible. Now, you know the demand of each child. Some of them are Sony fanatics and only want PS4, some
+of them love Microsoft products and only want XBOXs and some of them are happy with either of them, i.e.,
+you can gift them any. You have found a shop which sells both PS4s and XBOXs at variable prices. Different
+types of PS4s come in different prices and so do different types of XBOXs. The total number of devices sold
+by the shop is m. You want to buy a set of XBOXs and PS4s such that you want to maximize the number of
+children you can gift (it is not guaranteed that you can gift all the children) and minimize the amount you
+will be spending. However, your priority is to gift as many children as possible. A child does not care about
+the variety or cost of a PS4 or an XBOX.
+Input:
+First line contains a, b, c. a denotes the number of children who want a PS4, b denotes the number of
+children who want an XBOX and c denotes the number of children will do with either (0 ≤ a, b, c ≤ 10^5).
+The next line contains m (the number of devices the shop sells). (0 ≤ m ≤ 10^5).
+Each of the next m lines describes the device. The i
+th line contains first integer val[i] (1 ≤ val[i] ≤ 100) —
+the cost of the i
+th device, then the type of device (PS4 or XBOX).
+Output:
+Output two integers. The number of children you will be able to gift (maximize the number) and the cost
+you will be spending (minimize the cost).
+Example:
+Input:
+2 1 1
+4
+5 PS4
+6 XBOX
+3 XBOX
+7 XBOX
+Output:
+3 14
+Explanation: 2 children want PS4 but the shop only has 1 PS4. So 1 child from a category will be left
+unsatisfied. Only 1 wants XBOX and only 1 will do with either of them. So you will buy 1 PS4 worth 5 INR (to
+satisfy a). Then, you will get 1 XBOX worth 3 INR (to satisfy b). Then, you will get another XBOX worth 6 INR
+(to satisfy c). Total 3 devices worth 5+3+6 = 14 INR.
+
+**************************************************************************************************
+#include<stdio.h>
+#include<string.h>
+#define N 1000
+void sort(int a[],int n){
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            if(a[i]<a[j]){
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+    }
+}
+int main(){
+    int p=0,x=0,n1,x1,p1,products,val,costX[N]={0},costP[N]={0},totalp=0,totalx=0,total=0,ans=0;
+    char s[5]={'\0'};
+    scanf("%d%d%d",&p1,&x1,&n1);
+    scanf("%d",&products);
+    for(int i=0;i<products;i++){
+        scanf("%d %s",&val,s);
+        if(strcmp(s,"PS4")==0)
+            costP[p++]=val;
+        else if(strcmp(s,"XBOX")==0)
+            costX[x++]=val;
+    }
+    sort(costX,x);
+    sort(costP,p);
+    while(p1-- && p>0){
+        ans++;
+        totalp += costP[--p];
+    }
+    while(x1-- && x>0){
+        ans++;
+        totalx += costX[--x];
+    }
+    total = totalp+totalx;
+    while(n1-- && x+p >= n1){
+        if( p>0 && x>0 && costP[p] < costX[x]){
+            ans++;
+            total += costP[--p];
+        }
+        else if(p>0 && x>0 && costP[p] > costX[x]){
+            ans++;
+            total += costX[--x];
+        }
+        else if(p>0){
+            ans++;
+            total += costP[--p];
+        }
+        else if(x>0){
+            ans++;
+            total += costX[--x];
+        }
+    }
+    printf("%d %d\n",ans,total);
+}
