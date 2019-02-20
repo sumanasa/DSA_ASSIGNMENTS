@@ -57,8 +57,10 @@ int main(){
         for(int i=0;i<2*size-2;i+=2){
             int a = arr[i],b=arr[i+1];
             for(int j=0;j<2*size;j+=2){
-                if( (a<=arr[j] && b>=arr[j]) || (a>=arr[j] && a<=arr[j+1]))
+                int c = arr[j],d = arr[j+1];
+                if( (a<=c && c<=b) || (c<=a && a<=d)){
                     id[j] = id[i];
+                }
                 else if(j>i)
                     id[j] = 1+id[i];
             }
@@ -77,25 +79,25 @@ int main(){
         int A=0,B=0,visited[N]={0},group[N]={-1};
         for(int i=0;i<2*size;i+=2){
             if(A<=B && !visited[id[i]]){
-                id[i] = 1;
                 visited[id[i]] = 1;
                 group[id[i]] = 1;
                 A++;
             }
             else if(A>B && !visited[id[i]])
             {
-                id[i] = 0;
                 visited[id[i]] = 1;
                 group[id[i]] = 0;
                 B++;
             }
             else{
                 int x = id[i];
-                id[i] = group[x];
+                if(group[id[i]])
+                    A++;
+                else B++;                
             }
         }
         for(int i=0 ; i<2*size ; i+=2){
-            if(id[i])
+            if(group[id[i]])
                 printf("CA ");
             else 
                 printf("IM ");
@@ -103,3 +105,17 @@ int main(){
         printf("\n");
     }
 }
+/*
+1
+10
+1 3
+4 6
+5 7
+8 10
+9 11
+10 12
+13 15
+14 16
+15 17
+16 18
+ */
