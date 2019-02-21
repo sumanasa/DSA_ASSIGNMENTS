@@ -17,6 +17,59 @@ Output:
 1	2	2	2	3	4	4	4	5	5	5
 *******************************************************************************************************
 [without considering complexities]
+METHOD 1 :
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Node{
+    int data ;
+    struct Node* next;
+};
+typedef struct Node node;
+void insert(node** head,int x){
+    node* new_node  = (node*) malloc(sizeof(node)); //create and initialize
+    new_node->data = x;
+    new_node->next = NULL;
+    
+    node* temp = *head;
+    if(temp == NULL || temp->data >= x ){       //if empty or to be added at the beginning
+        new_node->next = *head;
+        *head = new_node;
+    }
+    else{
+        while( (temp->next != NULL) && (temp->next->data < x) ){ // move to the index before the index of the element to be added
+            temp = temp->next;
+        }
+        new_node->next = temp->next;             //connection between new node and the one after it
+        temp->next = new_node;                   //connection between left node and the new node
+    }     
+}
+void printlist(node** head){
+    node* temp= *head;
+    while(temp!=NULL){
+        printf("%d ",temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    node *head = NULL;
+    int k =2,n1,n2,x; 
+    scanf("%d",&n1);
+    while(n1--){
+        scanf("%d",&x);
+        insert(&head,x);
+    }
+    scanf("%d",&n2);
+    while(n2--){
+        scanf("%d",&x);
+        insert(&head,x);
+    }
+    printlist(&head);
+    return 0;
+}
+******************************************************************************
+METHOD 2 :
 #include <stdio.h>
 #include <stdlib.h>
 struct Node{
@@ -84,7 +137,7 @@ int main() {
 }
 
 *********************************************************************************************
-
+METHOD 3 :
 [INCORRECT . Yet to be changed]
 /*void merge(node** head1 ,int n1 ,node** head2 , int n2){
     node* headaux = NULL;
