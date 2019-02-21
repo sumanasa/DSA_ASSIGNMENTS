@@ -42,6 +42,21 @@ For the first query, since only two ranges (n = 2) are present, you have to assi
 one to team CA. For the second query, no assignment is possible because of the presence of the common
 point. For the last query, since n = 3, you have to give two ranges, (i.e, n - 1) to one team and the remaining
 to the other. For the first and last query, no other assignment was possible. 
+Input :
+1
+10
+1 3
+4 6
+5 7
+8 10
+9 11
+10 12
+13 15
+14 16
+15 17
+16 18
+Output : 
+CA IM IM CA CA CA IM IM IM IM 
 **************************************************************************************************************
 #include<stdio.h>
 #define N 1000
@@ -90,7 +105,6 @@ int main(){
                 B++;
             }
             else{
-                int x = id[i];
                 if(group[id[i]])
                     A++;
                 else B++;                
@@ -105,17 +119,4 @@ int main(){
         printf("\n");
     }
 }
-/*
-1
-10
-1 3
-4 6
-5 7
-8 10
-9 11
-10 12
-13 15
-14 16
-15 17
-16 18
- */
+
