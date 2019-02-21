@@ -1,0 +1,115 @@
+5. Merging	two	arrays	is	an	essential	step	in	merge	sort.	Can	we	do	the	same	in	case	of	linked	list?	Given	2	
+sorted	linked	lists, devise	a	way	to	merge	them	while	only	using	O(1)	memory	?
+Input:
+First	line	contains	the	size	of	the	first	sorted	array.
+Second	line	contains	the	elements	of	the	first	sorted	array.
+Third	line	contains	the	size	of	the	second	sorted	array.	
+Fourth	line	contains	the	elements	of	the	second	sorted	array.
+Output:
+The	final	merged	sorted	array.
+Example:
+Input:
+5
+1	2	3	4	5
+6
+2	2	4	4	5	5
+Output:
+1	2	2	2	3	4	4	4	5	5	5
+*******************************************************************************************************
+[without considering complexities]
+#include <stdio.h>
+#include <stdlib.h>
+struct Node{
+    int data ;
+    struct Node* next;
+};
+typedef struct Node node;
+void insert(node** head,int x){
+    node* new_node  = (node*) malloc(sizeof(node)); 
+    new_node->data = x;
+    new_node->next = NULL;    
+    node* temp = *head;
+    if(temp == NULL ){      
+        *head = new_node;
+        return ;
+    }
+    while( temp->next != NULL ){
+        temp = temp->next;
+    }
+    temp->next = new_node;              
+}
+node* merge(node* h1 ,node* h2){
+    if(!h1)
+        return h2;
+    else if(!h2)
+        return h1;
+    else if(h1->data <= h2->data){
+        h1->next = merge(h1->next , h2);
+        return h1;
+    }
+    else if(h1->data > h2->data){
+        h2->next = merge(h2->next , h1);
+        return h2;
+    }
+}
+void printlist(node** head){
+    node* temp= *head;
+    while(temp!=NULL){
+        printf("%d ",temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main() {
+    int x,n1,n2;
+    char ch;
+    node *head1 = NULL , *head2 = NULL;
+    scanf("%d%c",&n1,&ch);
+    while(scanf("%d",&x)){
+        scanf("%c",&ch);
+        insert(&head1,x);
+        if(ch != ' ')
+            break;
+    }
+    scanf("%d%c",&n2,&ch);
+    while(scanf("%d",&x)){
+        scanf("%c",&ch);
+        insert(&head2,x);
+        if(ch != ' ')
+            break;
+    }
+    node* result = merge(head1,head2);
+    printlist(&result);
+    return 0;
+}
+
+*********************************************************************************************
+
+[INCORRECT . Yet to be changed]
+/*void merge(node** head1 ,int n1 ,node** head2 , int n2){
+    node* headaux = NULL;
+    node* temp1 = *head1 ; node* temp2 = *head2 ;
+    if(temp1 == NULL)
+        printlist(&temp2);
+    if(temp2 == NULL)
+        printlist(&temp1);
+    while(temp1!=NULL && temp2!=NULL){
+        if(temp1->data <= temp2->data){
+            insert(&headaux,temp1->data);
+            temp1 = temp1->next;
+        }
+        else if(temp1->data > temp2->data){
+            insert(&headaux,temp2->data);
+            temp2 = temp2->next;
+        }
+    } 
+    while(temp1!=NULL){
+        insert(&headaux,temp1->data);
+        temp1 = temp1->next;
+    }
+    while(temp2!=NULL){
+        insert(&headaux,temp2->data);
+        temp2 = temp2->next;
+    }
+    printlist(&headaux);  
+}*/
