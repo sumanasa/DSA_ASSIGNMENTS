@@ -75,28 +75,31 @@ int main(){
         return 0;
     }  
     printf("edges : %d\n",n);
-    int cycle = 0,s = src ,n1, n2;
+    int cycle = 0,s = src,new_s ,n1, n2;
     for(int d=1;d<=max;d++){
-        int flag = 0;
+        int flag = 0,srcupdate=0;
         for(int i=1;i<=n;i++){
             if(arr[i] == d){
-                printf("%d %d\n",s,i);
-                
+                printf("%d %d\n",s,i); 
+                if(!srcupdate){
+                    new_s = i;
+                    srcupdate = 1;
+                }
                 //// only if additional edge is not figured out
-                    if(!cycle){   
-                        if(!flag){ //if didnt find second element at the same dist as this is from the src
-                             n1 = i;
-                            flag = 1;
-                        }
-                        else{
-                            n2 = i;
-                            cycle = 1; //cycle formed
-                        }
+                if(!cycle){   
+                    if(!flag){ //if didnt find second element at the same dist as this is from the src
+                         n1 = i;
+                        flag = 1;
                     }
+                    else{
+                        n2 = i;
+                        cycle = 1; //cycle formed
+                    }
+                }
                 //// above "if" for additional edge
             }
         }
-        s = n1;
+        s = new_s;
     }
     printf("%d %d : additional edge \n",n1,n2);
     return 0;
