@@ -23,3 +23,73 @@ Input:
 Output:
 2
 **************************************************************************************************************
+#include <stdio.h>
+#include <limits.h>
+#include <string.h>
+int n,m,cat_count,prev,ans=0,go_in=1,adj[1000][1000],old_catcnt,old_prev = 1,visited[1000];
+void dfs(int s,int d , int cat[] ,int visited[]){
+    visited[s] = 1;
+    if(s == d){
+        printf("  cat_count : %d\n and END ",cat_count); //goes to the old_prev update part NVM
+        if(cat_count <= m){
+            ans += 1;
+        }
+        go_in = 0; // to return to main function with current values of global variables
+    }
+    else{
+        for(int i=1 ; i<=n && go_in ; i++){
+            if(adj[s][i] && !visited[i]){
+                //have_child = 1;
+                old_prev = prev;
+                old_catcnt = cat_count ;
+                if(cat[i]){
+                    if(cat[prev]){
+                        cat_count += 1;
+                    }
+                    else{
+                        cat_count = 1;
+                    }     
+                }
+                prev = i;
+                printf("    recursion : %d \n",i);
+                dfs(i,d,cat,visited);
+            }
+        }
+        // comes here if it has no child nodes 
+        cat_count = old_catcnt;
+        go_in = 1;
+        prev = old_prev;
+        visited[s] = 0;
+        printf("    set back to cat_count : %d , previous : %d\n",cat_count,prev);
+    }
+}
+int main(){
+    scanf("%d %d",&n,&m);
+    int e = n-1,cat[n];
+    memset(adj,0,sizeof(adj));
+    for(int i=1;i<=n;i++){
+        scanf("%d",&cat[i]);
+    }
+    while(e--){
+        int x , y;
+        scanf("%d %d",&x,&y);
+        adj[x][y] = 1;
+    }
+    for(int i=1 ; i <= n ; i++){
+        int leaf = 1;
+        for(int j=1;j<=n;j++){
+            if(adj[i][j] == 1){
+                leaf = 0;
+                break;
+            }
+        }
+        if(leaf){
+            printf("leaf : %d\n",i);
+            memset(visited,0,sizeof(visited));
+            cat_count = cat[1] ; prev = 1 ;go_in = 1;
+            printf("  DFS : 1\n");
+            dfs(1,i,cat,visited);
+        }
+    }
+    printf("answer is : %d",ans);
+}
