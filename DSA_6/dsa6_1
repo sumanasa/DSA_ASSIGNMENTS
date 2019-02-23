@@ -1,13 +1,13 @@
-1. Given	an array P with	elements p1, p2, ..., pn and	an n×n sized	binary symmetric matrix	A,	you	have to	find	
-the	lexicographically	minimum	permutation	which	can	be	achieved	by	swapping	two	distinct	elements	pi and	
-pj where	the	condition	A[i][j]= 1 holds and	1 ≤ i, j ≤ n.
+1. Given an array P with elements p1, p2, ..., pn and an n×n sized binary symmetric matrix A, you have to find
+the lexicographically minimum permutation which	can	be achieved	by swapping	two	distinct elements pi and pj where the 
+condition A[i][j]= 1 holds and 1 ≤ i, j ≤ n.
 Input:
-First	line	contains	n.
-Second	line	contains	n elements	of array P.
-Each	of	the	next	n lines	contains	n2 integers	which	denote	matrix	A as	a	whole.	A[i][j] =	1 means	pi and	pj
-can	be	swapped, otherwise	no	swapping	can	be	done.
+First line contains	n.
+Second line	contains n elements	of array P.
+Each of	the	next n lines contains n2 integers which	denote	matrix	A as a whole. A[i][j] =	1 means	pi and	pj
+can	be swapped, otherwise no swapping can be done.
 Output:
-The	lexicographically minimum	permutation	that	can	be	achieved	by	swapping.
+The	lexicographically minimum permutation that can be achieved by swapping.
 Example:
 Input:
 7
