@@ -11,16 +11,16 @@ The	lexicographically minimum	permutation	that	can	be	achieved	by	swapping.
 Example:
 Input:
 7
-5	2	4	3	6	7	1
-0001001
-0000000
-0000010
-1000001
-0000000
-0010000
-1001000
+5 2 4 3 6 7 1
+0 0 0 1 0 0 1
+0 0 0 0 0 0 0
+0 0 0 0 0 1 0
+1 0 0 0 0 0 1
+0 0 0 0 0 0 0 
+0 0 1 0 0 0 0
+1 0 0 1 0 0 0
 Output:
-1	2	4	3	6	7	5
+1 2 4 3 6 7 5
 **************************************************************************************************
 #include <stdio.h>
 #include <limits.h>
@@ -53,23 +53,16 @@ int main(){
         }
     }
     for(int t=0;t<n;t++){
-        for (int i=0; i<n; i++) {
-            printf("%d ", arr[i]);
-        }
-        printf("\n");
         getmax(arr,n);
-        printf("%d is the max\n",max);
         for(int i = n-1 ; i > max_index ; i--){
             visited[max] = 1;
             if(max > arr[i] && canswap[max_index][i]){
-                printf("swapping indices %d , %d\n",max_index,i);
                 swap(&arr[max_index],&arr[i]);
-                for (int i=0; i<n; i++) {
-                    printf("%d ", arr[i]);
-                }
-                printf("\n");
                 break ;
             }
         }
+    }
+    for(int i=0; i<n; i++){
+        printf("%d ", arr[i]);
     }
 }
