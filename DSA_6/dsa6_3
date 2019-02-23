@@ -1,18 +1,17 @@
-3. You	are	a	dog	lover	and	thus	you	don’t	like	cats.	You	live	by	an	unusual	park.	The	park	is	a	rooted	tree	of	
-n vertices	with	root	node	as	1.	Vertex	1	also	contains	your	house.	Unfortunately, some	vertices	also	contain
-cats	and	you	know	those	vertices.	You	want	to	travel	to	each	of	the	leaves	of	the	tree	starting	from	your	
-house.	But	since	you	don’t	like	cats,	if	you	encounter	m consecutive cats	in	your	path	from	your	house	to	a	
-leaf	node	then	you	drop	the	path.	
+3. You are a dog lover and thus you don’t like cats. You live by an unusual	park. The park is a	rooted tree of n vertices with root node
+as 1. Vertex 1 also	contains your house. Unfortunately, some vertices also contain cats and	you	know those vertices. You want to travel	
+to each of the leaves of the tree starting from your house.	But	since you don’t	like cats, if you encounter	m consecutive cats in your 
+path from your house to	a leaf node	then you drop the path.	
 Input:
-The	first	line	contains	two	integers,	n and	m — the	number	of	vertices	of	the	tree	and	the	maximum	number	
-of	consecutive	vertices	with	cats	that	is	still	ok	for	you.
-The	second	line	contains	n integers	a1, a2, ..., an where	each	ai either	equals	to	0	(then	vertex	i has	no	cat),	
+The	first line contains two	integers, n and	m — the	number of vertices of the tree and the maximum number 
+of consecutive vertices	with cats that is still	ok for you.
+The second line	contains n integers	a1, a2, ..., an where each ai either equals	to 0 (then vertex i has	no cat),	
 or	equals	to	1	(then	vertex	i has	a	cat).
-Each	of	the	next	n-1 lines	contains the	edges	of	the	tree	in	the	format	xi,	yi,	where	xi and	yi are	the	vertices	
-of	the	tree,	connected	by	an	edge.
+Each of	the	next n-1 lines contains the	edges of the tree in the format	xi,	yi,	where xi and yi are	the	vertices 
+of the tree, connected by an edge.
 Output:	
-A	single integer	— the	number	of	distinct	leaves	of	a	tree, the	path	to	which	from	your home	contains	at	
-most	m consecutive	vertices	with	cats.
+A single integer — the number of distinct leaves of	a tree, the	path to	which from your home contains at 
+most m consecutive vertices	with cats.
 Example:
 Input:
 4	1
