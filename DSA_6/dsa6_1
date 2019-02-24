@@ -25,8 +25,19 @@ Output:
 #include <stdio.h>
 #include <limits.h>
 #include <string.h>
-int max , max_index , visited[1000];
+#include<limits.h>
+#define N 1000
+int n,max,max_index,visited[N],adj[N][N] , root[N] ,visdfs[N],k=0;
 void swap(int* x , int* y){int temp = *x ; *x = *y ; *y = temp;}
+void dfs(int x){
+    visdfs[x] = 1;
+    for(int i=0;i<n;i++){
+        if(adj[x][i] && !visdfs[i]){ 
+            root[i] = k;
+            dfs(i);
+        }
+    }
+}
 void getmax(int a[],int n){
     max = a[0];
     max_index = 0;
@@ -38,10 +49,8 @@ void getmax(int a[],int n){
     }
 }
 int main(){
-    int n;
     scanf("%d",&n);
-    int arr[n],canswap[n][n];
-    memset(visited,0,sizeof(visited));
+    int arr[n];
     for(int i=0;i<n;i++){
         scanf("%d",&arr[i]);
     }
@@ -49,14 +58,21 @@ int main(){
         for(int j=0;j<n;j++){
             int x;
             scanf("%d",&x);
-            canswap[i][j] = x;                       
+            adj[i][j] = x;                       
+        }
+    }
+    for(int i=0;i<n;i++){
+        if(!visdfs[i]){
+            dfs(i);
+            k++;
         }
     }
     for(int t=0;t<n;t++){
         getmax(arr,n);
+        int rt = root[max_index];
         for(int i = n-1 ; i > max_index ; i--){
             visited[max] = 1;
-            if(max > arr[i] && canswap[max_index][i]){
+            if(max > arr[i] && root[i]==rt){
                 swap(&arr[max_index],&arr[i]);
                 break ;
             }
