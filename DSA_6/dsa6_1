@@ -22,10 +22,9 @@ Input:
 Output:
 1 2 4 3 6 7 5
 **************************************************************************************************
+METHOD 1 : (only the dfs part changes for both the methods)
 #include <stdio.h>
-#include <limits.h>
 #include <string.h>
-#include<limits.h>
 #define N 1000
 int n,max,max_index,visited[N],adj[N][N] , root[N] ,visdfs[N],k=0;
 void swap(int* x , int* y){int temp = *x ; *x = *y ; *y = temp;}
@@ -82,3 +81,64 @@ int main(){
         printf("%d ", arr[i]);
     }
 }
+
+METHOD 2 :
+#include <stdio.h>
+#include <string.h>
+#define N 1000
+int n,k,max,max_index,visited[N],adj[N][N] , canswap[N][N] ,visdfs[N];
+void swap(int* x , int* y){int temp = *x ; *x = *y ; *y = temp;}
+void dfs(int x){
+    visdfs[x] = 1;
+    for(int i=0;i<n;i++){
+        if(adj[x][i] && !visdfs[i]){ 
+            printf("%d %d\n",k,i);
+            canswap[k][i] = 1;
+            canswap[i][k] = 1;
+            dfs(i);
+        }
+    }
+    visdfs[x]=0;
+}
+void getmax(int a[],int n){
+    max = a[0];
+    max_index = 0;
+    for(int i=1;i<n;i++){
+        if(max < a[i] && !visited[a[i]]){
+            max = a[i];
+            max_index = i;
+        }
+    }
+}
+int main(){
+    scanf("%d",&n);
+    int arr[n];
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            int x;
+            scanf("%d",&x);
+            adj[i][j] = x;                       
+        }
+    }
+    for(int i=0;i<n;i++){  
+            k = i;
+            dfs(i);
+    }
+    for(int t=0;t<n;t++){
+        getmax(arr,n);
+        for(int i = n-1 ; i > max_index ; i--){
+            visited[max] = 1;
+            if(max > arr[i] && canswap[max_index][i]){
+                swap(&arr[max_index],&arr[i]);
+                break ;
+            }
+        }
+    }
+    for(int i=0; i<n; i++){
+        printf("%d ", arr[i]);
+    }
+}
+
