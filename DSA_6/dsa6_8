@@ -31,7 +31,7 @@ No
 #include <stdio.h>
 #include <string.h>
 #define N 1000
-int n,m,k,visdfs[N][N];
+int n,m,k;
 char str[N][N]={'\0'},compare[N]={'\0'},output[N]={'\0'};
 int rowshift[4] = {-1,0,1,0};
 int colshift[4] = {0,1,0,-1};
@@ -54,7 +54,6 @@ void dfs(int x,int y){
             t = 4; //to end the further for loops after its return
         }
     }
-    visdfs[x][y]=0;
 }
 void find(char ch){
     for(int a=0;a<n;a++){
@@ -105,7 +104,7 @@ ABZ
 #include <stdio.h>
 #include <string.h>
 #define N 1000
-int n,m,k,visdfs[N][N];
+int n,m,k;
 char str[N][N]={'\0'},compare[N]={'\0'},output[N]={'\0'};
 int rowshift[4] = {-1,0,1,0};
 int colshift[4] = {0,1,0,-1};
@@ -133,7 +132,6 @@ void dfs(int x,int y){
             t = 4; //to end the further for loops after its return
         }
     }
-    visdfs[x][y]=0;
 }
 void find(char ch){
     for(int a=0;a<n;a++){
