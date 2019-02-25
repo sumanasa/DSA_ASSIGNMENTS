@@ -1,0 +1,182 @@
+8. Captain	America	hasn’t	given	up	the	hope	and	is	now	looking	for	some	ways	to	get	back	the	infinity	stones	
+from	Thanos.	He	goes	 to	Titan	 to	 search	 for	him	but	instead	is	 stuck	in	a	 2D	 string	grid.	After	 sending	a	
+distress	signal	to	Captain	Marvel, he	receives	a	word.	If	that	word	exists in	the	grid,	then	Captain can	come	
+out	otherwise	not.	The	word	can	be	constructed	from	horizontally	or	vertically	neighbouring letters.	Refer	
+to	sample	cases	for	more	clarity.	
+Note - The	cell	itself	does	not	count	as	an	adjacent	cell.	The same	letter	cell	may	be	used	more	than	once.
+Input:
+N (Number	of	strings)	M (length	of	each	strings)
+Each	of	the	next	N lines	would	be	strings with	M length
+T (Number	of	test	cases)
+Each	of	the	next	T lines	would	be	words received	from	Captain	marvel
+Example:
+Input:
+3	4
+ABCE
+SFCS
+ADEE
+5
+ABCCED
+SEE
+ABCB
+ABFSAB
+ABCD
+Output:
+Yes
+Yes
+Yes
+Yes
+No
+*********************************************************************************************************
+#include <stdio.h>
+#include <string.h>
+#define N 1000
+int n,m,k,visdfs[N][N];
+char str[N][N]={'\0'},compare[N]={'\0'},output[N]={'\0'};
+int rowshift[4] = {-1,0,1,0};
+int colshift[4] = {0,1,0,-1};
+
+int valid(int row,int col){
+    if(row>=0 && row<n && col>=0 && col<n){
+        if(compare[k] == str[row][col]){
+            output[k++] = str[row][col];
+            return 1;
+        }
+    }
+    return 0;
+}
+void dfs(int x,int y){
+    for(int t=0;t<4;t++){
+        int i = x+rowshift[t];
+        int j = y+colshift[t];
+        if(valid(i,j)){
+            dfs(i,j);
+            t = 4; //to end the further for loops after its return
+        }
+    }
+    visdfs[x][y]=0;
+}
+void find(char ch){
+    for(int a=0;a<n;a++){
+        for(int b=0;b<m;b++){
+            if(str[a][b] == ch){
+                memset(output,'\0',sizeof(output));
+                output[0] = ch;
+                k=1;
+                dfs(a,b);
+                if(strcmp(output,compare) == 0){
+                    printf("yes\n");
+                    return 0;
+                }
+                
+            }
+        }
+    }
+    printf("no\n");
+}
+
+int main(){
+    int c;
+    scanf("%d %d",&n,&m);
+    for(int a=0;a<n;a++){
+            scanf("%s",str[a]);            
+    }
+    scanf("%d",&c);
+    while(c--){
+        scanf("%s",compare);
+        find(compare[0]);
+        memset(compare,'\0',sizeof(compare));
+    }
+}
+/*
+3 4
+ABCE
+SFCS
+ADEE
+5
+ABCCED
+Ab
+aB
+ABZ
+ */
+
+****************************************************************************************************
+(WITH DEBUGGING STATEMENTS) :
+#include <stdio.h>
+#include <string.h>
+#define N 1000
+int n,m,k,visdfs[N][N];
+char str[N][N]={'\0'},compare[N]={'\0'},output[N]={'\0'};
+int rowshift[4] = {-1,0,1,0};
+int colshift[4] = {0,1,0,-1};
+
+int valid(int row,int col){
+//    printf("row,col : %d,%d \n",row,col);
+    if(row>=0 && row<n && col>=0 && col<n){
+        if(compare[k] == str[row][col]){
+            output[k++] = str[row][col];
+            printf("neighbor %d,%d is %c\n",row,col,str[row][col]);
+            printf("go further\n");
+            printf("curr string : %s\n",output);
+            return 1;
+        }
+    }
+    return 0;
+}
+void dfs(int x,int y){
+    for(int t=0;t<4;t++){
+        int i = x+rowshift[t];
+        int j = y+colshift[t];
+//        printf("checking if %d,%d is valid\n",i,j);
+        if(valid(i,j)){
+            dfs(i,j);
+            t = 4; //to end the further for loops after its return
+        }
+    }
+    visdfs[x][y]=0;
+}
+void find(char ch){
+    for(int a=0;a<n;a++){
+        for(int b=0;b<m;b++){
+            if(str[a][b] == ch){
+                memset(output,'\0',sizeof(output));
+                output[0] = ch;
+                k=1;
+                printf("first char : %c at %d,%d\n",str[a][b],a,b);
+                dfs(a,b);
+                printf("o/p : %s\n",output);
+                if(strcmp(output,compare) == 0){
+                    printf("yes\n");
+                    return 0;
+                }
+                
+            }
+        }
+    }
+    printf("no\n");
+}
+
+int main(){
+    int c;
+    scanf("%d %d",&n,&m);
+    for(int a=0;a<n;a++){
+            scanf("%s",str[a]);            
+    }
+    scanf("%d",&c);
+    while(c--){
+        scanf("%s",compare);
+        find(compare[0]);
+        memset(compare,'\0',sizeof(compare));
+    }
+}
+/*
+3 4
+ABCE
+SFCS
+ADEE
+5
+ABCCED
+Ab
+aB
+ABZ
+ */
