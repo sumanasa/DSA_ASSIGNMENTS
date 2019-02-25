@@ -32,19 +32,20 @@ Key	1	- paste,	buffer	- AAAAAA
 Key	1	- paste,	buffer	- AAAAAAAAA
 *******************************************************************************************************
 #include <stdio.h>
-#include <limits.h>
 int count(int x){
-    int ans;
-    if(x<=6)
-        return x;
-    int b ,max = 0;
-    for(int b=x-1;b>=1;b--){
-        ans = (x-b-1)*count(b);
-        if(max<ans){
-            max = ans;
+    int arr[x];
+    for(int n=1;n<=6;n++)
+        arr[n-1] = n;
+    for(int n=7;n<=x;n++){
+        arr[n-1] = 0;
+        for(int b=n-3;b>=1;b--){
+            int ans = (n-b-1)*arr[b-1]; // (n-b-1)*(maxA's with b operations)
+            if(arr[n-1] < ans){
+                arr[n-1] = ans;
+            }
         }
     }
-    return max;
+    return arr[x-1];
 }
 int main(){
     int n;
