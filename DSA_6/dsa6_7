@@ -74,10 +74,11 @@ int main(){
                 break;
             }
             else
-                if(dist<(cap-dist))
+                if(dist<(cap-dist))   // i.e if complete motion can be covered in accelerated motion i.e with 2km/min speed which consumes 
+                                      // 2*dist litres of petrol hence if cap>2*dist whole dist is covered with velocity = 2;
                     accl+=dist;
                 else
-                    accl+=cap-dist;
+                    accl+=cap-dist;   //i.e if x with vel=1 and y with vel = 2 ... cap = x + 2*y ; dist = x + y; hence y = cap - dist;
         }
         if(flag)
             continue;
