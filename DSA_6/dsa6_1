@@ -22,6 +22,43 @@ Input:
 Output:
 1 2 4 3 6 7 5
 **************************************************************************************************
+METHOD 0 :
+#include<stdio.h>
+#include<string.h>
+#define N 1000
+int visited[N],adj[N][N],root[N],k=0,n,vals[N];
+void swap(int* x,int* y){int temp = *x;*x = *y;*y = temp;}
+void dfs(int x){
+    visited[x] = 1;
+    root[x] = k;
+    for(int i=0;i<n;i++){
+        if(adj[x][i] && !visited[i])
+            dfs(i);    
+    }
+}
+int main(){
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+        scanf("%d",&vals[i]);
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            scanf("%d",&adj[i][j]);
+    for(int i=0;i<n;i++){
+        if(!visited[i]){
+            k++;
+            dfs(i);
+        }
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(vals[i] > vals[j] && root[i]==root[j])
+                swap(&vals[i],&vals[j]);
+        }
+    }
+        for(int i=0;i<n;i++)
+            printf("%d ",vals[i]);
+    return 0;
+}
 METHOD 1 : (only the dfs part changes for both the methods)
 #include <stdio.h>
 #include <string.h>
@@ -82,6 +119,7 @@ int main(){
     }
 }
 
+************************************************************************************************
 METHOD 2 :
 #include <stdio.h>
 #include <string.h>
