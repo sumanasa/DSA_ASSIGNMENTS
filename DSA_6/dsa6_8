@@ -53,7 +53,7 @@ int check(int i,int j,int row,int col){
         check(i+1,j,row,col+1);
 }
 int main(){
-    int n,c,t;
+    int n,c=0,t;
     scanf("%d%d",&n,&m);
     for(int i=0;i<n;i++)
         scanf("%s",&arr[i]);
