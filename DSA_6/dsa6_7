@@ -32,6 +32,65 @@ Output:
 10
 **************************************************************************************
 #include <stdio.h>
+#define N 1000
+int arr[N][N],n;
+void swap(int* x,int* y){
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+void sortg(int* arr,int n){
+    for(int i=0;i<n-1;i++)
+        for(int j=i+1;j<n;j++)
+            if(arr[i] > arr[j])
+                swap(&arr[i],&arr[j]);
+}
+void sortc(){
+    for(int i=0;i<n-1;i++)
+        for(int j=i+1;j<n;j++)
+            if(arr[i][0] > arr[j][0]){
+                swap(&arr[i][0],&arr[j][0]);
+                swap(&arr[i][1],&arr[j][1]);
+            }
+}
+int main(){
+    int gas[N];
+    int k,s,t;
+    scanf("%d%d%d%d",&n,&k,&s,&t);
+    for(int i=0;i<n;i++)
+        scanf("%d%d",&arr[i][0],&arr[i][1]);        
+    for(int i=1;i<=k;i++)
+        scanf("%d",&gas[i]);
+    gas[0]=0;
+    gas[k+1]=s;
+    sortg(gas,k);
+    sortc();
+    int normal_dist = t-s;                          // x + y = s ; x/1 + y/(1/2) = t; solving these two eqtns you get x,y.
+    int acc_distmin = s - normal_dist;
+    for(int i=0;i<n;i++){
+        int acc_dist=0 , cap = arr[i][1] , flag=0;
+        for(int j=0;j<=k;j++){
+            int gap = gas[j+1]-gas[j];
+            if(cap < gap)
+                break;
+            else if(cap > 2*gap)                    /* i.e if complete motion can be covered in accelerated motion i.e with 2km/min speed which consumes 
+                                                      2*dist litres of petrol hence if cap>2*dist whole dist is covered with velocity = 2; */
+                acc_dist += gap;
+            else
+                acc_dist += cap - gap;              //i.e if x with vel=1 and y with vel = 2 ... cap = x + 2*y ; dist = x + y;
+        }
+        if(acc_dist >= acc_distmin){
+            printf("%d\n",arr[i][0]);
+            return 0;
+        }
+    }
+    printf("-1\n");
+    return 0;
+}
+
+*******************************************************
+[original]
+#include <stdio.h>
 #include <stdlib.h>
 int n,k,s,t;
 int mat[1000][2];
