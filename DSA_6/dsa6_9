@@ -31,10 +31,33 @@ Key	1	- copy,	buffer	- AAA
 Key	1	- paste,	buffer	- AAAAAA
 Key	1	- paste,	buffer	- AAAAAAAAA
 *******************************************************************************************************
+METHOD 1 :
+#include <stdio.h>
+int main(){
+    int N,arr[1000];
+    scanf("%d",&N);
+    for(int n=1;n<=6;n++){
+        arr[n-1]=n;
+    }
+    for(int n=7;n<=N;n++){
+        arr[n-1] = 0;
+        for(int b=n-3;b>=1;b--){
+            int count = (n-b-1)*arr[b-1];
+            if(arr[n-1] < count){
+                arr[n-1] = count;
+            }
+        }
+ 
+    }
+    printf("%d",arr[N-1]);
+    return 0;
+}
+
+METHOD 2 :
 #include <stdio.h>
 int count(int x){
     int arr[x];
-    for(int n=1;n<=6;n++)
+    for(int n=1;n<=6,n<=x;n++)
         arr[n-1] = n;
     for(int n=7;n<=x;n++){
         arr[n-1] = 0;
