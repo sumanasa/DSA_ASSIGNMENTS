@@ -1,0 +1,45 @@
+9. Mohit is a traveller. He travels all around the world collecting non-negative numbers. After completing all
+of his journeys, he decides to form the largest number from the list of numbers. Help Mohit to fulfil his quest.
+Input:
+The first line contains the total number of non-negative numbers collected.
+The second line contains the non-negative numbers.
+Output:
+The largest number.
+Example:
+Input:
+5
+3 30 34 5 9
+Output:
+9534330
+************************************************************************************
+#include <stdio.h>
+int max=-1,n;
+void swap(int* a,int* b){int temp1=*a;*a=*b;*b=temp1;}
+void join(int* b){
+    int pow = 1,temp=0;
+    for(int i=n-1;i>=0;i--){
+        temp += pow*b[i];
+        pow*=10;
+    }
+    if(max<temp)
+        max=temp;
+}
+void permute(int* a,int l,int r){
+    if(l==r)
+        join(a);
+    else{
+        for(int i=l;i<=r;i++){
+            swap(&a[l],&a[i]);
+            permute(a,l+1,r);
+            swap(&a[l],&a[i]);
+        }
+    }
+}
+int main(){
+    scanf("%d",&n);
+    int arr[n];
+    for(int i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+    permute(arr,0,n-1);
+    printf("%d\n",max);
+}
