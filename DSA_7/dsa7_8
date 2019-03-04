@@ -1,0 +1,44 @@
+8. Naruto is now participating in Chunin Exams. He needsto solve a riddle to get a secret weapon. He is given
+a number n and he needs to find a set of numbers that are smaller than n but follow an adjacent_one
+condition. adjacent_one condition is fulfilled if all the digits in the number differ from their respective
+adjacent digits by 1. For example, 456 follows adjacent_one condition but 782 doesn't.
+Note: All single digit numbers fulfill adjacent_one condition.
+Note: Difference between 9 and 0 is not 1.
+Input:
+n
+Output:
+The set of numbers satisfying the condition
+Example 1:
+Input:
+20
+Output:
+0 1 2 3 4 5 6 7 8 9 10 12
+Example 2:
+Input:
+105
+Output:
+0 1 2 3 4 5 6 7 8 9 10 12 21 23 32 34 43 45 54 56 65 67 76 78 87 89 98 101
+*************************************************************************************************
+#include<stdio.h>
+int n;
+int adj_one(int x){
+    while(x>0){
+        int r = x%10; x /= 10;
+        int l = x%10; x /= 10;
+        if(abs(l-r) == 1)
+            continue;
+        else
+            return 0; 
+    }
+    return 1;
+}
+int main(){
+    scanf("%d",&n);
+    for(int i=0 ; i<=9 && i<n ; i++){
+        printf("%d ",i);
+    }
+    for(int i=10;i<n;i++){
+        if(adj_one(i))
+            printf("%d ",i);
+    }
+}
