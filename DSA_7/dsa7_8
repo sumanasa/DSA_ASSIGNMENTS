@@ -22,13 +22,13 @@ Output:
 #include<stdio.h>
 int n;
 int adj_one(int x){
+    int prev = x%10; x/=10;
     while(x>0){
-        int r = x%10; x /= 10;
-        int l = x%10; x /= 10;
-        if(abs(l-r) == 1)
-            continue;
-        else
-            return 0; 
+        if(abs(prev - x%10)==1){
+            prev = x%10;
+            x/=10;
+        }
+        else return 0;
     }
     return 1;
 }
