@@ -1,0 +1,94 @@
+5. You live in a town with n junctions and m bi-directional roads. Each road connects two distinct junctions
+and no two roads connect the same pair of junctions. It is possible to go from any junction to any other
+junction by these roads. The distance between two junctions is equal to the minimum possible number of
+roads on a path between them. Your city mayor wants to build a new road in such a way that the distance
+between the junctions s and t will not decrease. You are assigned a task to compute the number of pairs of
+junctions that are not connected by the road, such that if the new road between these two junctions is built
+the distance between s and t won't decrease.
+Input:
+The first line of the input contains integers n, m, s and t --- the number of junctions and the number of roads,
+as well as the indices of junctions s and t.
+The i
+th of the following m lines contains two integers, ui and vi, meaning that this road connects junctions ui
+and vi directly.
+Output:
+Print one integer — the number of pairs of junctions not connected by a direct road, such that building a
+road between these two junctions won't decrease the distance between junctions s and t.
+Example1:
+Input:
+5 4 1 5
+1 2
+2 3
+3 4
+4 5
+Output:
+0
+Explanation:
+The pairs of junctions which are not connected by a direct road are: (1, 3), (1, 4), (1, 5), (2, 4), (2, 5) and (3,
+5). If you build any road between any one of these city pairs, then the distance between 3 and 5 will reduce.
+That is why, no road can be built.
+Example 2:
+Input:
+5 4 3 5
+1 2
+2 3
+3 4
+4 5
+Output:
+5
+Explanation:
+The pairs of junctions which are not connected by a direct road are: (1, 3), (1, 4), (1, 5), (2, 4), (2, 5) and (3,
+5). Out of these, if you build roads between (1, 3), (1, 4), (1, 5), (2, 4) and (2, 5), then the distance between
+3 and 5 will not reduce. That is why, the answer is 5.
+************************************************************************************************************************************
+
+#include<stdio.h>
+#include <string.h>
+#define N 10000
+int n,m,s,t,adj[N][N],visited[N],level[N],dis_root[N],dis_x[N],queue[N],front=0,rear=0;
+int dist(int u,int v){
+    memset(visited,0,sizeof(visited));
+    memset(level,0,sizeof(level));
+    visited[u] = 1;
+    level[u] = 0;
+    queue[rear++] = u;
+    while(rear != front){
+        int x = queue[front++];
+        for(int i=1;i<=n;i++){
+            if(adj[x][i] && !visited[i]){
+                visited[i] = 1;
+                level[i] = level[x] + 1;
+                queue[rear++] = i;
+            }
+        }
+    }
+    return level[v];
+}
+int main(){
+    int r=0,a[N],b[N];
+    scanf("%d%d%d%d",&n,&m,&s,&t);
+    for(int i=0;i<m;i++){
+        int x,y;
+        scanf("%d%d",&x,&y);
+        adj[x][y] = 1 ; adj[y][x] = 1;
+    }
+    s--; t--;
+    int d = dist(s,t);
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            if(dist(i,j)!=1 && dist(i,j)!=0){
+                a[r] = i;
+                b[r++] = j;
+            }
+        }
+    }
+    int ans = r;
+    for(int i=0;i<r;i++){
+        adj[a[i]][b[i]] = adj[b[i]][a[i]] = 1;
+        if(dist(s,t) != d){
+            ans--;
+        }
+        adj[a[i]][b[i]] = adj[b[i]][a[i]] = 0;
+    }
+    printf("answer : %d\n",ans/2);
+}
