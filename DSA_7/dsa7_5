@@ -72,7 +72,6 @@ int main(){
         scanf("%d%d",&x,&y);
         adj[x][y] = 1 ; adj[y][x] = 1;
     }
-    s--; t--;
     int d = dist(s,t);
     for(int i=1;i<=n;i++){
         for(int j=1;j<=n;j++){
