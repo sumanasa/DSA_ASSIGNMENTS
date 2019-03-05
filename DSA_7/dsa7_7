@@ -1,0 +1,46 @@
+7. You have to the count number of crossovers while sorting a set of unsorted elements.
+Input:
+The elements to be sorted
+Output:
+The number of crossovers required to sort the array.
+Example:
+Input:
+3 2 1 4 5
+Output: 3
+Explanation:
+Before Sorting: 3 2 1 4 5
+ \ | / | |
+ \|/ | |
+ / | \ | |
+After sorting: 1 2 3 4 5
+line (1 to 1) crosses line (2 to 2)
+line (1 to 1) crosses line (3 to 3)
+line (2 to 2) crosses line (3 to 3)
+****************************************************************************************
+#include<stdio.h>
+int n;
+int insertsort(int a[]){
+    int ans=0;
+    for(int i=1;i<n;i++){
+        int value = a[i];
+        int j=i-1;
+        while(j>=0 && a[j] > value){
+            a[j+1] = a[j];
+            ans++;
+            j--;
+        }
+        a[j+1] = value;
+    }
+    return ans;
+}
+int main(){
+    int x , arr[1000];
+    char ch;
+    while(scanf("%d",&x)){
+        arr[n++] = x;
+        scanf("%c",&ch);
+        if(ch != ' ')
+            break;
+    }
+    printf("%d",insertsort(arr));
+}
