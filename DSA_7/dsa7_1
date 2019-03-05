@@ -1,0 +1,80 @@
+1. Alice and Bob are playing the tag game. The game should be played on an undirected rooted tree of n
+vertices. Vertex 1 is the root of the tree. Alice starts at vertex 1 and Bob starts at vertex x (x ≠ 1). The moves
+are made in turns, Bob goes first. In one move, one can either stay at the current vertex or travel to a
+neighbouring one. The game ends when Alice reaches the same vertex where Bob is standing. Alice wants
+to minimize the total number of moves and Bob wants to maximize it. Determine how many moves the game
+will last.
+Input:
+The first line contains two integer numbers n and x.
+Each of the next n - 1 lines contain two integer numbers a and b (1 ≤ a, b ≤ n) — edges of the tree. It is
+guaranteed that the edges will form a valid tree.
+Output:
+Print the total number of moves Alice and Bob will make.
+Example:
+Input:
+4 3
+1 2
+2 3
+2 4
+Output:
+4
+Explanation:
+Bob: stay at vertex 3
+Alice: go to vertex 2
+Bob: stay at vertex 3
+Alice: go to vertex 3
+
+************************************************************************************
+#include<stdio.h>
+#include <string.h>
+#define N 10000
+int max = -1,n,x,adj[N][N],visited[N],level[N],dis_root[N],dis_x[N],queue[N],front=0,rear=0;
+int dist(int u,int v){
+    memset(visited,0,sizeof(visited));
+    memset(level,0,sizeof(level));
+    visited[u] = 1;
+    level[u] = 0;
+    queue[rear++] = u;
+    while(rear != front){
+        int x = queue[front++];
+        for(int i=1;i<=n;i++){
+            if(adj[x][i] && !visited[i]){
+                visited[i] = 1;
+                level[i] = level[x] + 1;
+                queue[rear++] = i;
+            }
+        }
+    }
+    return level[v];
+}
+int main(){
+    scanf("%d%d",&n,&x);
+    int e = n-1;
+    for(int i=0;i<e;i++){
+        int x,y;
+        scanf("%d%d",&x,&y);
+        adj[x][y] = 1 ; adj[y][x] = 1;
+    }
+    for(int i=1;i<=n;i++){
+        dis_root[i] = dist(1,i);
+        dis_x[i] = dist(x,i);
+        if(max < dis_root[i] && dis_root[i] > dis_x[i])
+            max = dis_root[i];
+    }
+    printf("answer : %d\n",max*2);
+}
+/*
+4 3
+1 2
+2 3
+2 4
+answer : 4
+7 7
+1 2
+2 3
+3 7
+3 4
+4 5
+4 6
+answer : 8
+ */
