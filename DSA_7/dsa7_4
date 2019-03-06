@@ -1,0 +1,63 @@
+4. You came to an exhibition and one exhibit has drawn your attention. It consists of n stacks of blocks, where
+the i
+th stack consists of ai blocks resting on the surface. The height of the exhibit is equal to m. Consequently,
+the number of blocks in each stack is less than or equal to m. There is a camera on the ceiling that sees the
+top view of the blocks and a camera on the right wall that sees the side view of the blocks. Find the maximum
+number of blocks you can remove such that the views for both the cameras do not change. Note, that while
+originally all blocks are stacked on the floor, it is not required for them to stay connected to the floor after
+some blocks are removed. There is no gravity in the whole exhibition, so no block will fall down, even if the
+block underneath is removed. It not allowed to move blocks from one stack to another, i.e., you are not
+allowed to move blocks across the stacks in order to preserve both the views.
+Input:
+The first line contains two integers n and m— the number of stacks and the height of the exhibit.
+The second line contains n integers a1, a2, … ,an— the number of blocks in each stack from left to right.
+Output:
+Print exactly one integer — the maximum number of blocks that can be removed without changing the views.
+Example1:
+Input:
+5 6
+3 3 3 3 3
+Output:
+10
+
+Explanation:
+Here, total 10 blocks have been removed. As shown in the figure above, even after removal, from the side,
+3 blocks can be seen and from the top, 5 blocks can be seen. The top camera does not care whether the 5
+blocks are at the same height or not. Similarly, the side camera does not care whether the 3 blocks belong
+to the same stack or not.
+Example 2:
+Input:
+3 5
+1 2 4
+Out
+****************************************************************************************
+METHOD 1 :
+#include <stdio.h>
+void sort(int a[],int n){
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(a[i] > a[j]){
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }              
+        }
+    }
+}
+int main(){
+    int n,h,arr[n],total=0;
+    scanf("%d%d",&n,&h);
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+        total += arr[i];
+    }
+    sort(arr,n);
+    int y=1;
+    for(int i=1;i<n;i++){
+        if(arr[i] > y)
+            y++;
+    }
+    printf("%d\n",total - (arr[n-1] + n - y));
+}
+
+METHOD 2 :
