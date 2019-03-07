@@ -33,7 +33,7 @@ Output:
 *************************************************************************
 #include<stdio.h>
 #include <string.h>
-/* KOSARAJU'S ALGORITHM for SSC */
+/* KOSARAJU'S ALGORITHM for SCC */
 #define N 1000
 int n,m,p,q,cost[N],adj[N][N],visited[N],stack[N],comp[N],ways=1,tcost;
 void counter(int size){
