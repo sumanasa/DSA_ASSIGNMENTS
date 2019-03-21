@@ -1,0 +1,47 @@
+2. Assume that you are managing a pizza store and you have to schedule different pizza requests. Let us
+consider that i
+th request comes at time ti and take si seconds to be processed.
+For example, let us consider that there are three requests that arrive at t1 = 0, t2 = 1, t3 = 2 with processing time
+s1 = 3, s2 = 9, s3 = 6. Now, if you apply first come-first serve rule, then request 1 executes first finishing at t
+= 3, then request 2 which finishes at t = (3 + 9) = 12 and then request 3 which finishes at t = (12 + 6) = 18.
+Remember that when one process is running it cannot be interrupted by any others. Now we define waiting
+time for each process as:
+Waiting Time = (Time at which the task is done) – (Time at which the task arrived).
+So, waiting time of three processes are 3, 11, & 16 respectively. The average waiting time in this case is (3 +
+11 + 16) / 3 = 10. This is not an optimal solution. After serving the first customer at time t = 3, you can choose
+to serve the third customer. In that case, the waiting time will be 3, 7, & 17 respectively. Hence the average
+waiting time is (3 + 7 + 17) / 3 = 9. Given ti’s and si’s, your goal is to find the minimum average waiting time.
+Input:
+In the first line, you will be given an integer n (number of requests).
+In the next n lines, two space-separated integers will be given. The first is arrival time and second is processing
+time of each request.
+Output:
+Minimum average waiting time. 
+**********************************************************************************
+#include<stdio.h>
+#include <string.h>
+void swap(int* a ,int *b){int temp=*a; *a=*b; *b=temp;}
+int main(){
+    int n,T,S;
+    scanf("%d",&n);
+    int t[n],s[n];
+    for(int i=0;i<n;i++){
+        scanf("%d %d",&T,&S);
+        t[i] = T;
+        s[i] = S;
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(s[j] < s[i] && t[j] < t[i]){
+                swap(&s[i],&s[j]);
+                swap(&t[i],&t[j]);
+            }
+        }
+    }
+    int sum = s[0];
+    for(int i=1;i<n;i++){
+        s[i] = s[i] + s[i-1];
+        sum += s[i];
+    }
+    printf("min average : %d\n",sum/n);
+}
