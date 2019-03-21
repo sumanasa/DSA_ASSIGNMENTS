@@ -20,6 +20,7 @@ Minimum average waiting time.
 **********************************************************************************
 #include<stdio.h>
 #include <string.h>
+#include <limits.h>
 void swap(int* a ,int *b){int temp=*a; *a=*b; *b=temp;}
 int main(){
     int n,T,S;
@@ -30,18 +31,26 @@ int main(){
         t[i] = T;
         s[i] = S;
     }
+    int tsum = INT_MAX;
     for(int i=0;i<n-1;i++){
         for(int j=i+1;j<n;j++){
-            if(s[j] < s[i] && t[j] < t[i]){
+            if(s[j] < s[i] && t[i] < tsum){
                 swap(&s[i],&s[j]);
                 swap(&t[i],&t[j]);
             }
         }
+        tsum += s[i]+t[i];
     }
-    int sum = s[0];
+    for(int i=0;i<n;i++){
+        printf("%d ",s[i]);
+    }
+    printf("\n");
+    int sum = 0;
     for(int i=1;i<n;i++){
-        s[i] = s[i] + s[i-1];
-        sum += s[i];
+        s[i] += s[i-1];
+    }
+    for(int i=0;i<n;i++){
+        sum += (s[i]-t[i]);
     }
     printf("min average : %d\n",sum/n);
 }
