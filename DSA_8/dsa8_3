@@ -1,0 +1,43 @@
+3. Write a program to check for balanced parentheses in an expression. For example, your code should return
+true for “[()]{}{[()()]()}” while false for “{(]}”. The expression may contain other characters as well (other
+than parentheses). 
+Input:
+A string containing the expression.
+Output:
+True if its balanced, else false.
+***************************************************************************************************
+#include<stdio.h>
+#include <string.h>
+char s[1000];
+char brackets[1000];
+int top=-1;
+int valid(){
+    for(int i=0;i<strlen(s);i++){
+        if(s[i]=='{' || s[i]=='[' || s[i]=='('){
+            brackets[++top]=s[i];
+            continue;
+        }
+        switch(s[i]){
+            case '}':
+                if(top<0 || brackets[top]!='{')
+                    return 0;
+                top--;
+                break;
+            case ']':
+                if(top<0 || brackets[top]!='[')
+                    return 0;
+                top--;
+                break;
+            case ')':
+                if(top<0 || brackets[top]!='(')
+                    return 0;
+                top--;
+                break;
+        }
+    } 
+    return 1;
+}
+int main(){
+    scanf("%s",&s);
+    printf(valid() ? "true" : "false");
+}
