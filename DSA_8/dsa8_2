@@ -63,13 +63,13 @@ int main(){
     }
     printf("\n");
     printf("total : %d \n",tsum);
-    float sum = 0 , sumt=0;
+    float sum = 0 , curr_time=0;
     s[0] += t[0];
     for(int i=1;i<n;i++){
-        sumt = s[i-1];
-        s[i] += sumt;
-        if(t[i] > sumt)
-            s[i] += t[i]-sumt;
+        curr_time = s[i-1];
+        s[i] += curr_time;
+        if(t[i] > curr_time)
+            s[i] += t[i]-curr_time;
     }
     // finishing time
     for(int i=0;i<n;i++){
