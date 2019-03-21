@@ -31,15 +31,27 @@ int main(){
         t[i] = T;
         s[i] = S;
     }
-    int tsum = INT_MAX;
+    //sort acc to arrival to pick the first pizza properly
     for(int i=0;i<n-1;i++){
         for(int j=i+1;j<n;j++){
-            if(s[j] < s[i] && t[i] < tsum){
+            if(t[j] < t[i]){
                 swap(&s[i],&s[j]);
                 swap(&t[i],&t[j]);
             }
         }
-        tsum += s[i]+t[i];
+    }
+    /*compare 's' of pizzas that have been ordered before the preparation of the previous 
+     one to choose the next pizza you are going to prepare */
+    int tsum = t[0]+s[0]; 
+    for(int i=0;i<n-1;i++){
+        int nexts = s[i+1];
+        for(int j=i+2;j<n;j++){
+            if(s[j] < nexts && t[j] <= tsum){
+                swap(&s[i+1],&s[j]);
+                swap(&t[i+1],&t[j]);
+            }
+        }
+        tsum += s[i+1]+t[i+1];
     }
     for(int i=0;i<n;i++){
         printf("%d ",s[i]);
