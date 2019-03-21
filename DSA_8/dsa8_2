@@ -60,7 +60,7 @@ int main(){
         curr_finish_time += s[i+1];
         total_wait_time += curr_finish_time - t[i];
     }    
-    printf("min average : %d\n",total_wait_time/n);
+    printf("min average : %f\n",total_wait_time/n);
 }
 /*
 4
