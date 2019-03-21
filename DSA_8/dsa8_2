@@ -44,27 +44,42 @@ int main(){
      one to choose the next pizza you are going to prepare */
     int tsum = t[0]+s[0]; 
     for(int i=0;i<n-1;i++){
-        int nexts = s[i+1];
+        int flag = 0 , nexts = s[i+1];
         for(int j=i+2;j<n;j++){
             if(s[j] < nexts && t[j] <= tsum){
+                flag = 1;
                 swap(&s[i+1],&s[j]);
                 swap(&t[i+1],&t[j]);
             }
         }
-        tsum += s[i+1]+t[i+1];
+        if(tsum < t[i+1]){
+            tsum += t[i+1]-tsum;
+        }
+        tsum += s[i+1];
     }
+    //order of pizzas prepared
     for(int i=0;i<n;i++){
         printf("%d ",s[i]);
     }
     printf("\n");
-    int sum = 0;
+    printf("total : %d \n",tsum);
+    float sum = 0 , sumt=0;
+    s[0] += t[0];
     for(int i=1;i<n;i++){
-        s[i] += s[i-1];
+        sumt = s[i-1];
+        s[i] += sumt;
+        if(t[i] > sumt)
+            s[i] += t[i]-sumt;
     }
+    // finishing time
+    for(int i=0;i<n;i++){
+        printf("%d ",s[i]);
+    }
+    printf("\n");
     for(int i=0;i<n;i++){
         sum += (s[i]-t[i]);
     }
-    printf("min average : %d\n",sum/n);
+    printf("min average : %f\n",sum/n);
 }
 /*
 4
