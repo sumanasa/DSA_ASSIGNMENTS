@@ -25,7 +25,7 @@ void swap(int* a ,int *b){int temp=*a; *a=*b; *b=temp;}
 int main(){
     int n,T,S;
     scanf("%d",&n);
-    int t[n],s[n];
+    int t[n],s[n],finisht[n];
     for(int i=0;i<n;i++){
         scanf("%d %d",&T,&S);
         t[i] = T;
@@ -42,44 +42,25 @@ int main(){
     }
     /*compare 's' of pizzas that have been ordered before the preparation of the previous 
      one to choose the next pizza you are going to prepare */
-    int tsum = t[0]+s[0]; 
+    
+    int curr_finish_time = t[0]+s[0] ;
+    float total_wait_time = curr_finish_time-t[0]; 
     for(int i=0;i<n-1;i++){
         int flag = 0 , nexts = s[i+1];
         for(int j=i+2;j<n;j++){
-            if(s[j] < nexts && t[j] <= tsum){
+            if(s[j] < nexts && t[j] <= curr_finish_time){
                 flag = 1;
                 swap(&s[i+1],&s[j]);
                 swap(&t[i+1],&t[j]);
             }
         }
-        if(tsum < t[i+1]){
-            tsum += t[i+1]-tsum;
+        if(curr_finish_time < t[i+1]){
+            curr_finish_time += t[i+1]-curr_finish_time;
         }
-        tsum += s[i+1];
-    }
-    //order of pizzas prepared
-    for(int i=0;i<n;i++){
-        printf("%d ",s[i]);
-    }
-    printf("\n");
-    printf("total : %d \n",tsum);
-    float sum = 0 , curr_time=0;
-    s[0] += t[0];
-    for(int i=1;i<n;i++){
-        curr_time = s[i-1];
-        s[i] += curr_time;
-        if(t[i] > curr_time)
-            s[i] += t[i]-curr_time;
-    }
-    // finishing time
-    for(int i=0;i<n;i++){
-        printf("%d ",s[i]);
-    }
-    printf("\n");
-    for(int i=0;i<n;i++){
-        sum += (s[i]-t[i]);
-    }
-    printf("min average : %f\n",sum/n);
+        curr_finish_time += s[i+1];
+        total_wait_time += curr_finish_time - t[i];
+    }    
+    printf("min average : %d\n",total_wait_time/n);
 }
 /*
 4
