@@ -47,6 +47,7 @@ int main(){
     float total_wait_time = curr_finish_time-t[0]; 
     for(int i=0;i<n-1;i++){
         int flag = 0 , nexts = s[i+1];
+        printf("%d ",curr_finish_time);
         for(int j=i+2;j<n;j++){
             if(s[j] < nexts && t[j] <= curr_finish_time){
                 flag = 1;
@@ -58,10 +59,10 @@ int main(){
             curr_finish_time += t[i+1] - curr_finish_time;
         }
         curr_finish_time += s[i+1];
-        printf("%d\n",curr_finish_time);
+        printf("%d ",curr_finish_time);
         total_wait_time += curr_finish_time - t[i+1];
     }    
-    printf("min average : %f\n",total_wait_time/n);
+    printf("\n min average : %f\n", total_wait_time/n );
 }
 /*
 4
