@@ -1,0 +1,66 @@
+4. You love cookies. You have n cookies with you. Let us assume that the i
+th cookie has A[i] sweetness value.
+You want the sweetness values of all your cookies to be greater than or equal to value K. To do this, you
+repeatedly mix two cookies with the least sweetness values. You create a special combined cookie with:
+Sweetness value = (Least sweetness value + 2*second least sweetness value).
+You repeat this procedure until all the cookies in your collection have a sweetness greater than or equal to K.
+Calculate the number of operations required.
+Input:
+The first line consists of integers n - the number of cookies and K - the minimum required sweetness, separated
+by a space.
+Each of the next lines contains n integers describing the array A where A[i] is the sweetness of the cookie.
+Output:
+Print exactly one integer — the number of operations needed.
+Example:
+Input:
+6 7
+1 2 3 9 10 12
+Output:
+2
+******************************************************************************************
+#include <stdio.h>
+int a,b,ai;
+void find(int arr[],int n){
+    a = arr[0];
+    for(int i=1;i<n;i++){
+        if(a > arr[i]){
+            a = arr[i];
+            ai = i;
+        }
+    }
+    b = arr[0];
+    for(int i=1;i<n;i++){
+        if(b > arr[i] && i != ai){
+            b = arr[i];
+        }
+    }
+    for(int i=0;i<n;i++){
+        if(arr[i] == a || arr[i] == b){
+            arr[i] = a + 2*b;
+        }
+    }
+}
+int valid(int arr[],int n,int k){
+    for(int i=0;i<n;i++)
+        if(arr[i] < k)
+            return 0;
+    return 1;
+}
+int main(){
+    int n,k,ans=0, flag=0;
+    scanf("%d %d",&n,&k);
+    int arr[n];
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+        if(arr[i] < k){
+            flag = 1;
+        }       
+    }
+    if(flag){
+        while(!valid(arr,n,k)){
+            find(arr,n);
+            ans++;
+        }
+    }
+    printf("%d\n",ans);
+}
