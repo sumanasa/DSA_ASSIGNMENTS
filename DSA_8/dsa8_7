@@ -1,0 +1,41 @@
+7. Naruto was once interested in sum of entire array. However, now he is obsessed with minimum element in
+the array. But in order to make things more interesting he decided to find the minimum element of every sub
+array and then sum it. Help Naruto find the sum.
+Input:
+The first line contains the size N of the array.
+The second line contains the N integers separated by space.
+Output:
+The sum.
+Example:
+Input:
+4
+3 1 2 4
+Output:
+17
+Explanation:
+The subarrays are {3}, {1}, {2}, {4}, {3, 1}, {1, 2}, {2, 4}, {3, 1, 2}, {1, 2, 4} and {3, 1, 2, 4}. The sum = 3
++ 1 + 2 + 4 + 1 + 1 + 2 + 1 + 1 + 1 = 17.
+Input:
+4
+1 2 3 4
+Output:
+20
+*********************************************************************
+#include <stdio.h>
+int main(){
+    int n,a[1000],sum=0;
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+        scanf("%d",a+i);
+    for(int sub_size = n ; sub_size > 0 ; sub_size--){
+        for(int k=0 ; k < n-sub_size+1 ; k++){
+            int min=a[k];
+            for(int i=0 ; i < sub_size ; i++){
+                if(min > a[i+k])
+                    min = a[i+k];
+            }
+            sum += min;
+        }
+    }
+    printf("Total sum is : %d",sum);
+}
