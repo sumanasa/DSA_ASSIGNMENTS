@@ -1,0 +1,95 @@
+8. The city of Matrix is tricky. You are given a n*n binary matrix map of the city. You will get life points if
+the submatrix you decide to work on has a single 1. Given the map find the number of submatrices that will
+give you life points. The submatrices are not essentially square matrices.
+Input:
+The first line contains the value of n.
+Next, the matrix is entered row-by-row, each row input in a new line.
+Output:
+The number of submatrices.
+Example:
+Input
+3
+0 0 0
+0 0 0
+0 0 0
+Output
+0
+Input
+3
+0 0 0
+0 1 0
+0 0 0
+Output
+16
+Explanation:
+The submatrices are:
+1, 0 1, 1 0,
+0
+1
+,
+1
+0
+, 0 1 0,
+0
+1
+0
+,
+0 0
+0 1
+,
+0 0
+1 0
+,
+0 1
+0 0
+,
+1 0
+0 0
+,
+0 0 0
+0 1 0
+,
+0 1 0
+0 0 0
+,
+0 0
+0 1
+0 0
+,
+0 0
+1 0
+0 0
+,
+0 0 0
+0 1 0
+0 0 0
+
+****************************************************************************
+#include<stdio.h>
+int main(){
+    int n,ans=0;
+    scanf("%d",&n);
+    int a[n][n];
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            scanf("%d",&a[i][j]);
+    for(int i=1; i <= n; i++){
+        for(int j=1; j <= n; j++){
+            for(int k=0; k <= n-j; k++){
+                for(int l=0; l <= n-i; l++){
+                    int sum =0;
+                    for(int p = k; p <= k+j-1; p++){
+                        for(int q=l; q <= l+i-1; q++){
+                            sum += a[p][q];
+                        }
+                    }
+                    if(sum == 1){
+                       ans++;  
+                    }
+                }
+            }
+        }
+    }
+    printf("%d\n",ans);
+    return 0;
+}
