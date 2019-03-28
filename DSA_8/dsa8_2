@@ -17,6 +17,21 @@ In the next n lines, two space-separated integers will be given. The first is ar
 time of each request.
 Output:
 Minimum average waiting time. 
+
+4
+0 6
+2 9
+5 3
+7 2
+ans : 8
+
+5
+0 6
+2 4
+4 2
+5 3
+7 6
+ans : 8.6
 **********************************************************************************
 #include<stdio.h>
 #include <string.h>
@@ -72,7 +87,15 @@ int main(){
 2 9
 5 3
 7 2
+
+5
+0 6
+2 4
+4 2
+5 3
+7 6
 */
+
 2nd CODE :
 #include<stdio.h>
 #include <string.h>
