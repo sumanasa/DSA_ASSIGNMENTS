@@ -19,6 +19,53 @@ Output:
 2
 ******************************************************************************************
 #include <stdio.h>
+int a,b;
+void updatearr(int arr[],int n){
+    a = arr[0];
+    for(int i=1;i<n;i++){
+        if(a > arr[i]){
+            a = arr[i];
+        }
+    }
+    b = arr[0];
+    for(int i=1;i<n;i++){
+        if(b > arr[i] && arr[i] != a){
+            b = arr[i];
+        }
+    }
+    for(int i=0;i<n;i++){
+        if(arr[i] == a || arr[i] == b){
+            arr[i] = a + 2*b;
+        }
+    }
+}
+int valid(int arr[],int n,int k){
+    for(int i=0;i<n;i++)
+        if(arr[i] < k)
+            return 0;
+    return 1;
+}
+int main(){
+    int n,k,ans=0, flag=0;
+    scanf("%d %d",&n,&k);
+    int arr[n];
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+        if(arr[i] < k){
+            flag = 1;
+        }       
+    }
+    if(flag){
+        while(!valid(arr,n,k)){
+            updatearr(arr,n);
+            ans++;
+        }
+    }
+    printf("%d\n",ans);
+}
+*****************************************************************
+[incorrect]
+#include <stdio.h>
 int a,b,ai;
 void find(int arr[],int n){
     a = arr[0];
