@@ -40,6 +40,51 @@ void swap(int* a ,int *b){int temp=*a; *a=*b; *b=temp;}
 int main(){
     int n,T,S;
     scanf("%d",&n);
+    int t[n],s[n];
+    for(int i=0;i<n;i++){
+        scanf("%d %d",&T,&S);
+        t[i] = T;
+        s[i] = S;
+    }
+    //sort acc to arrival to pick the first pizza properly
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(t[j] < t[i]){
+                swap(&s[i],&s[j]);
+                swap(&t[i],&t[j]);
+            }
+        }
+    }
+    /*compare 's' of pizzas that have been ordered before the preparation of the previous 
+     one to choose the next pizza you are going to prepare */
+    
+    int curr_finish_time = t[0]+s[0];
+    printf("%d ",curr_finish_time);
+    float total_wait_time = curr_finish_time-t[0]; 
+    for(int i=1;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            if(s[j] < s[i] && t[j] <= curr_finish_time){
+                swap(&s[i],&s[j]);
+                swap(&t[i],&t[j]);
+            }
+        }
+        if(curr_finish_time < t[i]){                   // check for this before adding s[i]
+            curr_finish_time += t[i] - curr_finish_time;
+        }
+        curr_finish_time += s[i];
+        total_wait_time += curr_finish_time - t[i];
+        printf("%d ",curr_finish_time);
+    }    
+    printf("\n min average : %f\n",total_wait_time/n);
+}
+*************************************************************************
+#include<stdio.h>
+#include <string.h>
+#include <limits.h>
+void swap(int* a ,int *b){int temp=*a; *a=*b; *b=temp;}
+int main(){
+    int n,T,S;
+    scanf("%d",&n);
     int t[n],s[n],finisht[n];
     for(int i=0;i<n;i++){
         scanf("%d %d",&T,&S);
