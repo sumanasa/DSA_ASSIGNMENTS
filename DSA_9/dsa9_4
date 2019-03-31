@@ -1,0 +1,42 @@
+4. Suppose there is a circle. There are N petrol pumps on that circle. Petrol pumps are numbered 0 to N-1.
+You have two pieces of information corresponding to each of the petrol pumps: (i) the amount of petrol that
+a particular petrol pump will give, and (ii) the distance from that petrol pump to the next petrol pump.
+Initially, you have a tank of infinite capacity carrying no petrol. You can start the tour at any of the petrol
+pumps. Calculate the first point from where the truck will be able to complete the circle. Consider that the
+truck will stop at each of the petrol pumps. The truck will move one kilometre for each litre of the petrol.
+Input –
+The first line will contain the value of N.
+The next N lines will contain a pair of integers each, i.e. the amount of petrol that petrol pump will give and
+the distance between that petrol pump and the next petrol pump.
+OutputAn integer which will be the smallest index of the petrol pump from which we can start the tour.
+Example -
+Input3
+1 5
+10 3
+3 4
+Output: 1
+*******************************************************************************8
+#include<stdio.h>
+int getstart(int n,int p[],int d[]){
+    int curr_petrol;
+    for(int start = 0; start < n ;start++){
+        int i = start;
+        curr_petrol = 0;
+        while(curr_petrol >= 0){
+            curr_petrol += p[i] - d[i];
+            i = (i+1) % n;
+            if(i == start)
+                return start;
+        }   
+    }
+    return -1;
+}
+int main(){
+    int n;
+    scanf("%d",&n);
+    int petrol[n],dist[n];
+    for(int i=0;i<n;i++)
+        scanf("%d%d",&petrol[i],&dist[i]);
+    printf("%d",getstart(n,petrol,dist));
+    return 0;
+}
