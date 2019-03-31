@@ -1,0 +1,98 @@
+1. Consider an operating system where each process can only run up to a certain amount of time (say threshold
+= 4 secs). Then we switch to some other process. In this way, we iterate over all the active processes. In case
+there is only one active process, it can continuously execute (without considering the threshold). Now, given
+arrival times, execution times and the threshold, calculate the average waiting time.
+ExampleP1 arrives at 0 and executes for 3 secs, P2 arrives at 0 and executes for 4 secs, and P3 arrives at 0 and executes
+for 5 secs. Threshold = 1sec.
+Then the order of process execution is
+P1 from 0 to 1.
+P2 from 1 to 2.
+P3 from 2 to 3.
+P1 from 3 to 4.
+P2 from 4 to 5.
+P3 from 5 to 6.
+P1 from 6 to 7.
+P2 from 7 to 8.
+P3 from 8 to 9.
+P2 from 9 to 10.
+P3 from 10 to 11.
+P3 from 11 to 12.
+Waiting timesP1 – 4 secs
+P2 – 6 secs
+P3 – 7 secs
+Average waiting time = 5.66 secs.
+sample 1:
+    3 1
+    0 3
+    0 4
+    0 5
+output: 5.666667
+sample 2:
+    2 3
+    0 2
+    4 2
+output: 0
+****************************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
+void swap(int* a,int* b){int temp = *a ; *a = *b ; *b = temp;}
+int main(){
+    int n , k , ct = 0 , over =1 ; // 'ct' = current time
+    scanf("%d %d",&n,&k);
+    int start[n] , duration[n] , wait[n];
+    for(int i=0;i<n;i++){         
+        scanf("%d %d",&start[i],&duration[i]);
+        wait[i] = 0;
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(start[i] > start[j] || ( start[i] == start[j] && duration[i] > duration[j] )){
+                swap(&start[i],&start[j]);
+                swap(&duration[i],&duration[j]);
+            }
+        }
+    }
+    do{
+        over = 1;
+        for(int i=0;i<n;i++){   // pick each process
+            int t=1;
+            if(ct < start[i]){  // if the system is idle in between and to also add initial wait time if first process itself is starting at time > 0
+                ct = start[i];
+                for(int j=0 ; j<n ; j++){
+                    if(start[j] <= ct && (j!=i && i!=0) && duration[j]!=0 )   
+                        wait[j]++;
+                }
+            }
+            while(duration[i] > 0 && t <= k){   //can execute this process for <= k seconds
+                duration[i]--;
+                printf(" process executed is : %d\n",i);
+                /* increase wait-time for every other process that has 
+                   already been registered and is not yet finished */
+                for(int j=0 ; j<n ; j++){
+                    if(start[j] <= ct && j!=i && duration[j]!=0 )   
+                        wait[j]++;
+                }
+                t++;
+                ct++;
+                for(int i=0;i<n;i++){
+                    printf("%d ",wait[i]);
+                }
+                printf("\n");
+            }
+        }
+        int count = 0 , index = 0;
+        for(int i=0;i<n;i++){
+            if(duration[i] != 0){
+                over = 0;
+                count++;
+                index = i;
+            }
+        }
+        
+    }while(over == 0);
+    float sum_wt = 0;
+    for(int i=0;i<n;i++)
+        sum_wt += wait[i];
+    printf("average time : %f\n" , sum_wt/n);
+    return 0;
+}
