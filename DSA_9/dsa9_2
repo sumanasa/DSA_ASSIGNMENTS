@@ -21,45 +21,4 @@ ExampleInput5 4 10
 2 1 8 5 (Note the left most element represents the top of the stack.)
 Output 4
 *******************************************************************************************
-#include <stdio.h>
-#include <stdlib.h>
-void push(int stack[],int* top,int input){
-    stack[++(*top)] = input;
-}
-int pop(int stack[],int* top){
-    if(top < 0)
-        return 0;
-    return stack[(*top)--];
-}
-int main(){
-    int n,m,k,flag = 0, sum = 0, score = 0;
-    scanf("%d %d %d",&n,&m,&k);
-    int arr1[n],arr2[m],A[n],B[m],a=-1,b=-1;
-    for(int i=0;i<n;i++){
-        scanf("%d",&arr1[i]);
-    }
-    for(int i=0;i<m;i++){
-        scanf("%d",&arr2[i]);
-    }
-    for(int i=n-1;i>=0;i--){
-        push(A,&a,arr1[i]);
-    }
-    for(int i=m-1;i>=0;i--){
-        push(B,&b,arr2[i]);
-    }
-    do{
-        flag = 0;
-        if(A[a] < B[b] && (sum + A[a] <= k )){
-            sum += pop(A,&a);
-            flag = 1;
-            score++;
-        }
-        else if(B[b] <= A[a] && (sum + B[b] <= k)){
-            sum += pop(B,&b);
-            flag = 1;
-            score++;
-        }
-    }while((a>=0 || b>=0) && flag);
-    printf("max score: %d\n",score);
-    return 0;
-}
+
