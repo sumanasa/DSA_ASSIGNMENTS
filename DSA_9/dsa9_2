@@ -1,0 +1,65 @@
+2. Alexa has two stacks of non-negative integers, stack A and stack B where index denotes the top of the stack.
+Alexa challenges Nick to play the following game:
+i. In each move, Nick can remove one integer from the top of either stack A or stack B.
+ii. Nick keeps a running sum of the integers he removes from the two stacks.
+iii. Nick is disqualified from the game if, at any point, his running sum becomes greater than some integer x
+given at the beginning of the game.
+iv. Nick's final score is the total number of integers he has removed from the two stacks.
+Given A, B and x, find the maximum possible score Nick can achieve (i.e., the maximum number of integers
+he can remove without being disqualified).
+Input -
+The first line contains three space-separated integers describing the respective values of n (the number of
+integers in stack A), m (the number of integers in stack B), and x (the number that the sum of the integers
+removed from the two stacks cannot exceed).
+The second line contains n space-separated integers describing the respective values of A.
+The third line contains m space-separated integers describing the respective values of B.
+Output
+Print an integer on a new line denoting the maximum possible score Nick can achieve without being
+disqualified.
+ExampleInput5 4 10
+4 2 4 6 1 (Note the left most element represents the top of the stack.)
+2 1 8 5 (Note the left most element represents the top of the stack.)
+Output 4
+*******************************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
+void push(int stack[],int* top,int input){
+    stack[++(*top)] = input;
+}
+int pop(int stack[],int* top){
+    if(top < 0)
+        return 0;
+    return stack[(*top)--];
+}
+int main(){
+    int n,m,k,flag = 0, sum = 0, score = 0;
+    scanf("%d %d %d",&n,&m,&k);
+    int arr1[n],arr2[m],A[n],B[m],a=-1,b=-1;
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr1[i]);
+    }
+    for(int i=0;i<m;i++){
+        scanf("%d",&arr2[i]);
+    }
+    for(int i=n-1;i>=0;i--){
+        push(A,&a,arr1[i]);
+    }
+    for(int i=m-1;i>=0;i--){
+        push(B,&b,arr2[i]);
+    }
+    do{
+        flag = 0;
+        if(A[a] < B[b] && (sum + A[a] <= k )){
+            sum += pop(A,&a);
+            flag = 1;
+            score++;
+        }
+        else if(B[b] <= A[a] && (sum + B[b] <= k)){
+            sum += pop(B,&b);
+            flag = 1;
+            score++;
+        }
+    }while((a>=0 || b>=0) && flag);
+    printf("max score: %d\n",score);
+    return 0;
+}
