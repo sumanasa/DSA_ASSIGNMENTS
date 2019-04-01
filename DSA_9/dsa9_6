@@ -6,18 +6,29 @@ individually are at most t. You can swim infinite distance in zero time. Of cour
 boundaries of the grid during your swim.
 You start at the top left building (0, 0). What is the least time in which you can reach the bottom right building
 (N - 1, N - 1)?
+
 Sample Input
 2
 0 2
 1 3
 Sample Output
 3
-sample input 2: 
+
+Sample Input: 
 5
 0  1  2  3  4
 24 23 22 21 5
 12 13 14 15 16
 11 17 18 19 20
 10 9  8  7  6
-output : 16
+Sample Output:
+16
+
+Sample Input:
+3
+0 1 2
+1 2 2
+3 2 2
+sample output: 
+2
 **************************************************************************************
