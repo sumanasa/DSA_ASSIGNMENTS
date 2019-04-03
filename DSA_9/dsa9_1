@@ -65,12 +65,14 @@ int main(){
             /*
             add wait-time to every process registered till then and is not executed completely if the system is idle in between 
             */
-            if(ct < start[i]){  
-                for(int j=0 ; j<n ; j++){
-                    if(start[j] <= ct && j!=i && duration[j]!=0)   
-                        wait[j]++;
-                }
+            if(ct < start[i]){ 
+                int idle_wt = start[i] - ct;
                 ct = start[i];
+                for(int j=0 ; j<n ; j++){
+                    if(start[j] < ct && duration[j]!=0)   
+                        wait[j] += idle_wt;
+                }
+
             }
             while(duration[i] > 0 && t <= k){   //can execute this process for <= k seconds
                 duration[i]--;
@@ -102,3 +104,10 @@ int main(){
     printf("average time : %f\n" , sum_wt/n);
     return 0;
 }
+/*
+   3 1
+   1 3
+   1 4
+   1 5
+*/
+
