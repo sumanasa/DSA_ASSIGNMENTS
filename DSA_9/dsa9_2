@@ -46,7 +46,7 @@ int main(){
                 sum -= A[a-1];
                 a--;
             }
-            if(a+b > c)
+            if(a+b > c && sum <= x)    // sum <= x coz the abouve proc may stop if a<0 and sum might not be <= x always so..
                 c = a+b;
         }
         printf("%d\n", c);
