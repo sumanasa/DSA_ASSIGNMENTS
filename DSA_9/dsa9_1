@@ -43,6 +43,54 @@ output: 5.666667
 #include <stdlib.h>
 void swap(int* a,int* b){int temp = *a ; *a = *b ; *b = temp;}
 int main(){
+    int n , k, over =1 ;
+    scanf("%d %d",&n,&k);
+    int start[n] , duration[n] , wait[n];
+    for(int i=0;i<n;i++){         
+        scanf("%d %d",&start[i],&duration[i]);
+        wait[i] = 0;
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(start[i] > start[j]){
+                swap(&start[i],&start[j]);
+                swap(&duration[i],&duration[j]);
+            }
+        }
+    }
+    int ct = start[0];      // 'ct' = current time
+    do{
+        over = 1;
+        for(int i=0;i<n;i++){   // pick each process
+            int t=0;
+            while(duration[i] > 0 && t+1 <= k){   //can execute this process for <= k seconds
+                duration[i]--;
+                for(int j=0 ; j<n ; j++){
+                    if(start[j] <= ct && j!=i && duration[j]!=0 )   
+                        wait[j]++;
+                }
+                t++;
+                ct++;
+            }
+        }
+        for(int i=0;i<n;i++){
+            if(duration[i] != 0){
+                over = 0;
+            }
+        }        
+    }while(over == 0);
+    
+    float sum_wt = 0;
+    for(int i=0;i<n;i++)
+        sum_wt += wait[i];
+    printf("average time : %f\n" , sum_wt/n);
+    return 0;
+}
+***********************************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
+void swap(int* a,int* b){int temp = *a ; *a = *b ; *b = temp;}
+int main(){
     int n , k , ct = 0 , over =1 ; // 'ct' = current time
     scanf("%d %d",&n,&k);
     int start[n] , duration[n] , wait[n];
