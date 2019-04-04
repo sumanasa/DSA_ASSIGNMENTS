@@ -62,6 +62,9 @@ int main(){
     do{
         over = 1;
         for(int i=0;i<n;i++){   // pick each process
+            if(start[i] > ct){
+                ct = start[i];
+            }
             int t=0;
             while(duration[i] > 0 && t+1 <= k){   //can execute this process for <= k seconds
                 duration[i]--;
