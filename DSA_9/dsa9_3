@@ -15,7 +15,32 @@ Input -
 Output –
 3
 3
-***********************************************************************
+****************************************************************
+Method 0:
+#include<stdio.h>
+#include<math.h>
+int get_maxfactor(int n){
+   for(int i=n-1;i>1;i--){
+       if(n%i==0)
+            return i;
+   }
+   return -1;
+}
+int main(){
+    int q,n,ans=0;
+    scanf("%d",&q); // 'q' -> no.of test cases
+    while(q--){
+        scanf("%d",&n);
+        while(n>0){
+        int factor = get_maxfactor(n);
+        if(factor > 0){ n = factor; ans++; }
+        else {  n--; ans++; }
+        }
+        printf("%d\n",ans);
+    }
+    return 0;
+}
+*************************************************************
 METHOD 1 : ITERATIVE
 #include <stdio.h>
 #define N 10000
