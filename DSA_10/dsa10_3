@@ -1,0 +1,145 @@
+3. You are given a stream of asteroid sizes and you need to find the median of the size of the asteroid you
+have observed at each time step. You will be given N, the length of the stream and an array of numbers
+representing the size of the new asteroid of that time step.
+Required Time Complexity - O(N * logN)Sample Input
+4
+5 15 1 3
+Sample Output
+5 10 5 4
+***********************************************************************************
+
+#include <stdio.h>
+#include <stdlib.h>
+int n,minheap[1000],maxheap[1000],minheapsize=1,maxheapsize=1,x;
+float root=0.0;
+
+void swap(int *a,int *b)
+{
+    int temp=*a;
+    *a=*b;
+    *b=temp;
+}
+int remove_maxheap(int len)
+{
+    int y=maxheap[1];
+    maxheap[1]=maxheap[len];
+    int x=1;
+    while(x<=n)
+    {
+        int max=maxheap[x];
+        int tempx=x;
+        if(maxheap[2*x]>max)
+        {
+            tempx=2*x;
+            max=maxheap[2*x];
+        }
+        if(maxheap[2*x + 1]>max)
+        {
+            tempx=2*x + 1;
+            max=maxheap[2*x + 1];
+        }
+        swap(&maxheap[x],&maxheap[tempx]);
+        if(x==tempx)
+            break;
+        x=tempx;
+    }
+    maxheapsize--;
+    return y;
+}
+
+int remove_minheap(int len)
+{
+    int y=minheap[1];
+    minheap[1]=minheap[len];
+    int x=1;
+    while(x<=n)
+    {
+        int min=minheap[x];
+        int tempx=x;
+        if(minheap[2*x]<min)
+        {
+            tempx=2*x;
+            min=minheap[2*x];
+        }
+        if(minheap[2*x + 1]<min)
+        {
+            tempx=2*x + 1;
+            min=minheap[2*x + 1];
+        }
+        swap(&minheap[x],&minheap[tempx]);
+        if(x==tempx)
+            break;
+        x=tempx;
+    }
+    minheapsize--;
+    return y;
+}
+
+void insert_maxheap(int y,int len)
+{
+    if(maxheapsize-minheapsize>0)
+    {
+        int y = remove_maxheap(maxheapsize);
+        insert_minheap(y,minheapsize);
+    }
+    len=maxheapsize;
+    maxheap[len]=y;
+    int x=len;
+    while(maxheap[x]>maxheap[x/2] && x/2>=1)
+    {
+        swap(&maxheap[x],&maxheap[x/2]);
+        x=x/2;
+    }
+    maxheapsize++;
+}
+
+void insert_minheap(int y,int len)
+{
+    if(minheapsize-maxheapsize>0)
+    {
+        int y = remove_minheap(minheapsize);
+        insert_maxheap(y,maxheapsize);
+    }
+    len=minheapsize;
+    minheap[len]=y;
+    int x=len;
+    while(minheap[x]<minheap[x/2] && x/2>=1)
+    {
+        swap(&minheap[x],&minheap[x/2]);
+        x=x/2;
+    }
+    minheapsize++;
+}
+
+int main()
+{
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&x);
+        if(i==0)
+            root=x;
+        if(x<root)
+            insert_maxheap(x,maxheapsize);
+        else
+            insert_minheap(x,minheapsize);
+
+        if(minheapsize==maxheapsize)
+        {
+            root = (float)(minheap[1] + maxheap[1])/2;
+            printf("%f ",root);
+        }
+
+        else if(minheapsize > maxheapsize)
+        {
+            root = minheap[1];
+            printf("%f ",root);
+        }
+        else
+        {
+            root = maxheap[1];
+            printf("%f ",root);
+        }
+    }
+    return 0;
+}
