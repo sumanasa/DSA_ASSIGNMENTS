@@ -1,0 +1,54 @@
+1. IPL is in full flow and now teams have to choose the best possible opening pair for their team. Given N
+right-handed batsmen and N left-handed batsmen and their respective average scores. Find out the best k
+combinations of left and right-handed batsmen. Time Complexity: O(N* k).
+Sample Input Format
+N k
+Array with average scores for right-hand batsmen
+Array with average scores for left-hand batsmen
+Sample Input 1
+2 2
+1 2
+3 4
+Sample Output 1
+6 5
+Sample Input 2
+4 4
+1 4 2 3
+2 5 1 6
+Sample Output 2
+10 9 9 8
+*****************************************************************************
+#include<stdio.h>
+#include<stdlib.h>
+#include<limits.h>
+int dsc(const void* a,const void* b){
+	return(*(int*)b - *(int*)a);
+}
+int main(){
+	int n,k;
+	scanf("%d %d",&n,&k);
+	int arr1[n],ind[n],arr2[n];
+	for(int i=0;i<n;i++){
+		scanf("%d",&arr1[i]);
+		ind[i] = 0;
+	}
+	for(int i=0;i<n;i++){
+		scanf("%d",&arr2[i]);
+	}
+	qsort(arr1,n,sizeof(int),dsc);
+	qsort(arr2,n,sizeof(int),dsc);
+	while(k--){
+		int max = INT_MIN;
+		int max_i = 0;
+		for(int i = 0; i < n; ++i){
+			if(max < arr1[i] + arr2[ind[i]]){
+				max = arr1[i]+arr2[ind[i]];
+				max_i = i;
+			}
+		}
+		printf("%d ",max);
+		ind[max_i]++;
+	}
+	printf("\n");
+	return 0;
+}
