@@ -1,0 +1,161 @@
+6. Arya is a huge cricket fan, so he decides that he'll meet his five favourite cricketers in this problem-set of
+heaps. And he'll try to impress them. The first cricketer he wants to impress is: Kane Williamson. He asked
+Williamson to answer some queries in a press interview. Williamson is irritated by Arya’s constant
+interruption during his interview, so Williamson decides to give Sharat a run for his money by asking him the
+answer to various queries. Williamson will give a query of the types mentioned below to Sharat and will
+expect him to answer those.
+Push X -- Insert Williamson's score in an array. - Query type 1.
+● Diff -- Find out the difference between Willamson's current highest and current lowest score,
+currently present in the array. And then remove a single instance of each of those values from the
+●array. - Query type 2.
+In case, the current lowest and current highest score are same, then only one instance of that score
+will be removed from the array.
+● CountHigh -- Find out the number of times Williamson has scored his current highest score, currently
+present in array. - Query type 3.
+● CountLow -- Find out the number of times Williamson has scored his current lowest score, currently
+present in array. - Query type 4.
+Input format
+The first line contains an integer Q, which denotes the number of queries which have to be dealt by Sharat.
+The next Q lines will contain a query like the ones mentioned above.
+Output format
+For the query types 2, 3, and 4, print the answer in a new line. If there is no record of any innings, that is, the
+array of Williamson's score is empty for query type 2, 3 and 4, then print -1.
+Example
+Input
+10
+CountHigh
+Push 442
+CountHigh
+Push 7555
+Diff
+Push 2799
+Diff
+Push 8543
+Diff
+Diff
+Output
+-1
+1
+7113
+0
+0
+-1
+*******************************************************************************************
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<limits.h>
+
+int arr[1000], count = 0;
+
+void print(){
+	printf("\n");
+	for(int i = 0 ; i<count; i++){
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+void Push(int num){
+	arr[count++] = num;
+}
+
+void Diff(){
+	if(count == 0){
+		printf("-1\n");
+		return;
+	}
+	int high = arr[0];
+	int h_index = 0;
+	for(int i = 0; i<count;i++){
+		if(arr[i] >= high){
+			high = arr[i];
+			h_index = i;
+		}
+	}
+	int low = INT_MAX;
+	int l_index = 0;
+	for(int i = 0; i<count;i++){
+		if(arr[i] <= low){
+			low = arr[i];
+			l_index = i;
+		}
+	}
+	if(h_index != l_index){
+		for(int i = h_index; i<count; i++){
+			arr[i] = arr[i+1];
+		}
+		count--;
+		for(int i = l_index; i<count; i++){
+			arr[i] = arr[i+1];
+		}
+		count--;
+	}
+	else{
+		for(int i = h_index; i<count; i++){
+			arr[i] = arr[i+1];
+		}
+		count--;
+	}
+
+	printf("%d\n", high-low);
+}
+
+void CountHigh(){
+	if(count == 0){
+		printf("-1\n");
+		return;
+	}
+	int high = arr[0];
+	for(int i = 0; i<count;i++){
+		if(arr[i] > high){
+			high = arr[i];
+		}
+	}
+	int ans = 0;
+	for(int i = 0; i<=count; i++){
+		if(arr[i] == high)
+			ans++;
+	}
+	printf("%d\n", ans);
+}
+
+void CountLow(){
+	if(count == 0){
+		printf("-1\n");
+		return;
+	}
+	int low = INT_MAX;
+	for(int i = 0; i<count;i++){
+		if(arr[i] < low && arr[i] != -1){
+			low = arr[i];
+		}
+	}
+	int ans = 0;
+	for(int i = 0; i<=count; i++){
+		if(arr[i] == low)
+			ans++;
+	}
+	printf("%d\n", ans);
+}
+
+int main(){
+	int n; 
+	char string[20];
+	scanf("%d", &n);
+	memset(arr, -1, sizeof(arr));
+	int temp;
+	for(int i = 0; i<n; i++){
+		scanf("%s", string);
+		if(!strcmp(string, "Push")){
+			scanf("%d", &temp);
+			Push(temp);
+		}
+		else if(!strcmp(string, "Diff"))
+			Diff();
+		else if(!strcmp(string, "CountHigh"))
+			CountHigh();
+		else if(!strcmp(string, "CountLow"))
+			CountLow();
+	}
+}
