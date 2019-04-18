@@ -1,0 +1,75 @@
+8. There are N chairs arranged in a row. K people come in a line and start occupying the chairs. Each person
+wants to be as far as possible from every other person. So, every person arriving looks for the largest emptycontinuous sequence of unoccupied chairs and occupies the middle position. They have a preference
+indicating whether they would choose the left or the right chair if there are two chairs at the middle to
+choose from (else the preference does not matter, since there is only 1 chair at the centre). If there are
+multiple largest empty sequences, then the person chooses the sequence which appears first from left side.
+You are asked to answer Q queries. Determine which person has occupied the queried position.
+Input Format
+The first line of every test file are 2 integers N and K.
+The next line contains a string S of length K. The ith character would be 'L' or 'R' indicating the preference
+of the i th person - the left or the right seat respectively.
+Next line contains an integer Q - the number of queries.
+Next Q lines contain an integer Q i - the queried position.
+Output Format
+For each query, output the persons' entry number if it is occupied, else print '−1' without quotes in a new
+line.
+Example
+Input
+5 3
+RLR
+5
+1
+2
+3
+4
+5
+Output
+2
+-1
+1
+-1
+3
+*******************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
+#define N 1000
+int n,k,q,x,arr[N],input[N];
+char str[N];
+int main(){
+    scanf("%d%d",&n,&k);
+    scanf("%s",str);
+    scanf("%d",&q);
+    for(int i=0;i<n;i++)
+        arr[i]=-1;
+    for(int i=1;i<=k;i++){
+        int size=0 , maxsize=0 , start_index=0 , temp=0;
+        for(int j=0;j<=n;j++){
+            if(arr[j] == -1){
+                // store the index of first occurence of '-1'
+                if(size == 0)
+                    temp = j;  
+                size++;
+            }
+            else{
+                if(maxsize < size){
+                    maxsize = size;
+                    start_index = temp;
+                }
+                size = 0;
+            }
+        }
+        if(maxsize % 2 == 0){
+            if(str[i-1] == 'L')
+                arr[start_index+(maxsize/2)-1] = i;
+            if(str[i-1] == 'R')
+                arr[start_index+(maxsize/2)] = i;
+        }
+        else
+            arr[start_index+(maxsize/2)] = i;
+    }
+    for(int i=0;i<q;i++)
+        scanf("%d",&input[i]);
+    for(int i=0;i<q;i++)
+        printf("%d\n",arr[input[i]-1]);
+    return 0;
+}
