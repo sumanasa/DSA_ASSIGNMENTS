@@ -1,0 +1,34 @@
+7. Given an array arr[] of size n containing 0 and 1 only. The problem is to count the subarrays having equal
+number of 0’s and 1’s.
+Input
+{1,0,0,1,0,1,1}
+Output
+8
+*******************************************************************************************
+#include<stdio.h>
+int main(){
+	int n=0,ans=0;
+	int arr[n];
+	while(scanf("%d",&arr[n])){
+		char ch;
+		scanf("%c",&ch);
+		n++;
+		if(ch != ' ')
+			break;
+	}
+	for(int size=1;size<n;size++){
+		for(int i=0;i<n-size+1;i++){
+			int sum = 0;
+			for(int j=0;j<size;j++){
+				if(arr[i+j] == 1)
+					sum += 1;
+				else
+					sum -= 1;
+			}
+			if(sum == 0)
+				ans++;
+		}
+	}
+	printf("%d\n",ans);
+	return 0;
+}
