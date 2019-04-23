@@ -1,0 +1,49 @@
+10. You are the word master. The words are just too big for you. You decide to make a shortest possible
+unique prefix for every word.
+Sample Input:
+4 (Number of words)
+Zebra
+Dog
+Duck
+Dove
+Sample Output:
+Z
+Dog
+Du
+Dov
+***********************************************************************************************
+#include <stdio.h>
+#include <string.h>
+#define N 1000
+char arr[N][N]={'\0'},nick[N][N]={'\0'};
+int max = 0;
+int main(){
+	int n;
+	scanf("%d",&n);
+	for(int i=0;i<n;i++){
+		scanf("%s",arr[i]);
+		if(max<strlen(arr[i]))
+			 max = strlen(arr[i]);		
+	}
+	for(int i=0;i<n;i++){
+		nick[i][0] = arr[i][0];
+	}
+
+	for(int l=0;l<n;l++){
+		int k = 1;
+		for(int i=0;i<max;i++){
+			for(int j=0;j<n;j++){
+				if(l!=j && arr[j][i] != '\0' && arr[l][i] != '\0'){
+					if(arr[j][i] == arr[l][i]){
+						nick[l][k++] = arr[l][i+1];
+						break;
+					}
+				}
+			}
+		}
+	}
+	for (int i = 0; i < n; ++i){
+			printf("%s\n",nick[i]);
+	}
+	return 0;
+}
